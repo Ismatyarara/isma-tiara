@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Admin — Isma Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="admin-theme.css"><link rel="stylesheet" href="admin-professional.css">
+</head>
+<body class="admin-body">
+  <section id="login-screen" class="login-screen">
+    <form id="login-form" class="login-card">
+      <a href="index.html" class="cms-logo"><img src="assets/images/logo-isma.jpeg" alt="Isma Studio"></a>
+      <p class="eyebrow">ADMIN LOGIN</p><h1>Welcome back, Isma.</h1><p>Masuk untuk tambah skill, sertifikat, dan konten portfolio.</p>
+      <label>Email<input id="admin-email" type="email" autocomplete="username" required></label>
+      <label>Password<input id="admin-password" type="password" autocomplete="current-password" required></label>
+      <p id="login-error" class="login-error" aria-live="polite"></p><button class="button" type="submit">LOG IN</button>
+      <a class="text-link back-link" href="index.html">← Kembali ke portfolio</a>
+    </form>
+  </section>
+  <div id="admin-app" class="cms-shell" hidden>
+    <aside class="cms-sidebar"><a href="index.html" class="cms-logo"><img src="assets/images/logo-isma.jpeg" alt="Isma Studio"></a><p class="cms-label">ISMA PORTFOLIO CMS</p>
+      <nav class="cms-nav"><button class="tab active" data-tab="dashboard"><i>DB</i> Dashboard</button><button class="tab" data-tab="projects"><i>PR</i> Projects</button><button class="tab" data-tab="certificates"><i>CT</i> Certificates</button><button class="tab" data-tab="skills"><i>SK</i> Skills &amp; Tools</button><button class="tab" data-tab="beyond"><i>BW</i> Beyond Work</button><a href="index.html"><i>↗</i> Lihat Portfolio</a><button id="logout" class="logout" type="button">Keluar</button></nav>
+    </aside>
+    <main class="cms-main"><header class="cms-top"><div><p class="eyebrow">ISMA PORTFOLIO CMS</p><h1 id="page-title">Dashboard</h1></div><span>Professional content workspace</span></header>
+      <section id="dashboard-view"><section class="cms-hero"><p>PORTFOLIO CONTROL</p><h2>Kelola konten portfolio dari satu panel yang rapi.</h2><span>Tambah satu proyek atau sertifikat dulu, lalu halaman portfolio akan otomatis mengikuti data yang kamu simpan.</span><div><button class="button open-manager" type="button">Tambah Proyek</button><button class="button secondary open-certificates" type="button">Upload Sertifikat</button><a href="index.html" class="button ghost">Lihat Portfolio</a></div></section><section class="summary-grid"><article><span>PROJECTS</span><b id="summary-projects">0</b><small>Data proyek aktif</small></article><article><span>CERTIFICATES</span><b id="summary-certificates">0</b><small>Sertifikat tersimpan</small></article><article><span>SKILLS</span><b id="summary-skills">0</b><small>Tools dan kemampuan</small></article></section></section>
+      <section id="editor" class="manager" hidden><form id="item-form"><h2 id="form-title">Tambah proyek</h2><div id="form-fields"></div><div class="form-actions"><button class="button" type="submit">Simpan</button><button class="button ghost" id="cancel" type="button">Batal</button></div></form><div class="content-list"><div class="list-heading"><h2>Daftar konten</h2><span>Gunakan tombol Edit atau Hapus.</span></div><div id="admin-list" class="admin-list"></div></div></section>
+    </main>
+  </div>
+  <script src="data.js"></script><script src="admin.js"></script>
+</body></html>
