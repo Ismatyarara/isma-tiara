@@ -1518,7 +1518,7 @@
         .project-grid {
             display: grid;
             gap: 22px;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
         }
 
         .project-card {
@@ -1778,7 +1778,7 @@
         .certificate-grid {
             display: grid;
             gap: 16px;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
         }
 
         .certificate-card {
@@ -1788,6 +1788,7 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
+            cursor: pointer;
             transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
         }
 
@@ -2141,6 +2142,7 @@
         .project-modal-image {
             width: 100%;
             aspect-ratio: 16/9;
+            max-height: 60vh;
             background: linear-gradient(135deg, var(--violet-100), #fff);
             display: flex;
             align-items: center;
@@ -2155,7 +2157,8 @@
         .project-modal-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            background: var(--violet-50);
         }
 
         .project-modal-body {
@@ -2683,6 +2686,20 @@
         </article>
     </div>
 
+    <div id="certificateModal" class="project-modal hidden" aria-hidden="true">
+        <div class="project-modal-backdrop" data-modal-close></div>
+        <article class="project-modal-card" role="dialog" aria-modal="true" aria-labelledby="certificateModalTitle">
+            <button type="button" class="project-modal-close" data-modal-close
+                aria-label="Tutup detail sertifikat">&times;</button>
+            <div id="certificateModalImage" class="project-modal-image"></div>
+            <div class="project-modal-body">
+                <p id="certificateModalMeta" class="section-kicker"></p>
+                <h2 id="certificateModalTitle"></h2>
+                <div id="certificateModalTags" class="project-modal-tags"></div>
+            </div>
+        </article>
+    </div>
+
     <footer>
         <p>&copy; 2026 Isma Tiara Zalianti. All Rights Reserved.</p>
     </footer>
@@ -2731,10 +2748,12 @@
         });
 
         const modal = document.getElementById('projectModal');
+        const certificateModal = document.getElementById('certificateModal');
         document.querySelectorAll('[data-modal-close]').forEach((button) => {
             button.addEventListener('click', () => {
-                modal.classList.add('hidden');
-                modal.setAttribute('aria-hidden', 'true');
+                const parentModal = button.closest('.project-modal');
+                parentModal.classList.add('hidden');
+                parentModal.setAttribute('aria-hidden', 'true');
             });
         });
 
@@ -2842,7 +2861,34 @@
             $('#metric-certificates').textContent = data.certificates.length;
 
             $('#skillList').innerHTML = data.skills.map(skill => `<div class="skill-chip ${skill.gambar ? 'skill-photo' : 'fallback-logo'}">${skill.gambar ? `<img src="${skill.gambar}" alt="${esc(skill.nama)}">` : `<span>${esc(skill.ikon || initials(skill.nama))}</span>`}<small>${esc(skill.nama)}</small></div>`).join('') || '<p class="empty-dynamic">Belum ada skill.</p>';
-            const certs = data.certificates; const certButton = $('[data-certificate-toggle]'); const renderCertificates = (all = false) => { const visible = all ? certs : certs.slice(0, 3); $('#certificateList').innerHTML = visible.map(cert => `<div class="certificate-card"><div class="certificate-photo">${cert.gambar ? `<img src="${cert.gambar}" alt="${esc(cert.nama_sertifikat)}">` : `<div class="certificate-placeholder">${initials(cert.nama_sertifikat)}</div>`}</div><b>${esc(cert.nama_sertifikat)}</b><small>${esc(cert.penerbit)}</small><span>${esc(cert.tahun)}</span></div>`).join('') || '<p class="empty-dynamic">Belum ada sertifikat.</p>'; certButton.hidden = certs.length <= 3; certButton.textContent = all ? 'Less' : 'All'; certButton.onclick = () => renderCertificates(!all); }; renderCertificates();
+
+            const certs = data.certificates;
+            const certButton = $('[data-certificate-toggle]');
+
+            const openCertificate = (cert) => {
+                $('#certificateModalTitle').textContent = cert.nama_sertifikat;
+                $('#certificateModalMeta').textContent = `${cert.penerbit || ''}${cert.tahun ? ' · ' + cert.tahun : ''}`;
+                $('#certificateModalImage').innerHTML = cert.gambar
+                    ? `<img src="${cert.gambar}" alt="${esc(cert.nama_sertifikat)}">`
+                    : `<div class="thumb-mono grad-1" style="width:100%;height:100%;"><span style="width:72px;height:72px;font-size:26px;">${initials(cert.nama_sertifikat)}</span></div>`;
+                $('#certificateModalTags').innerHTML = [cert.penerbit, cert.tahun].filter(Boolean).map(tag => `<span>${esc(tag)}</span>`).join('')
+                    + (cert.tautan_sertifikat ? `<a href="${cert.tautan_sertifikat}" target="_blank" rel="noreferrer" class="certificate-link" style="margin-left:8px;">Lihat kredensial ↗</a>` : '');
+                certificateModal.classList.remove('hidden');
+                certificateModal.setAttribute('aria-hidden', 'false');
+            };
+
+            const renderCertificates = (all = false) => {
+                const visible = all ? certs : certs.slice(0, 3);
+                $('#certificateList').innerHTML = visible.map((cert, index) => `<div class="certificate-card" data-cert-index="${index}"><div class="certificate-photo">${cert.gambar ? `<img src="${cert.gambar}" alt="${esc(cert.nama_sertifikat)}">` : `<div class="certificate-placeholder">${initials(cert.nama_sertifikat)}</div>`}</div><b>${esc(cert.nama_sertifikat)}</b><small>${esc(cert.penerbit)}</small><span>${esc(cert.tahun)}</span></div>`).join('') || '<p class="empty-dynamic">Belum ada sertifikat.</p>';
+                certButton.hidden = certs.length <= 3;
+                certButton.textContent = all ? 'Less' : 'All';
+                certButton.onclick = () => renderCertificates(!all);
+                $('#certificateList').querySelectorAll('[data-cert-index]').forEach(card => {
+                    card.onclick = () => openCertificate(visible[Number(card.dataset.certIndex)]);
+                });
+            };
+            renderCertificates();
+
             $('#beyondList').innerHTML = data.beyond.map((item, index) => `<figure class="panel hobby-card">${item.gambar ? `<img src="${item.gambar}" alt="${esc(item.nama)}">` : `<div class="hobby-placeholder ${gradClasses[index % gradClasses.length]}">${initials(item.nama)}</div>`}<figcaption><b>${esc(item.nama)}</b><span>${esc(item.deskripsi)}</span></figcaption></figure>`).join('') || '<p class="empty-dynamic">Belum ada aktivitas Beyond Work.</p>';
             window.addEventListener('storage', event => { if (event.key === STORAGE_KEY) window.location.reload(); });
         })();
