@@ -13,7 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=caveat:600" rel="stylesheet" />
     <style>
         :root {
-            --bg: #faf9f6;
+            --bg: #ffffff;
             --panel: #ffffff;
             --ink: #1c1530;
             --ink-soft: #4b4166;
@@ -1429,6 +1429,64 @@
             font-weight: 700;
         }
 
+        .project-overview {
+            display: grid;
+            gap: 24px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: #fff;
+            box-shadow: var(--shadow-soft);
+        }
+
+        @media (min-width: 860px) {
+            .project-overview {
+                grid-template-columns: 1.15fr .85fr;
+                align-items: center;
+                padding: 38px 42px;
+            }
+        }
+
+        .project-overview h2 {
+            margin: 5px 0 10px;
+            font-family: var(--font-display);
+            font-size: clamp(28px, 3vw, 40px);
+            color: var(--violet-900);
+        }
+
+        .project-overview p:not(.section-kicker) {
+            max-width: 600px;
+            margin: 0;
+            color: var(--ink-soft);
+            line-height: 1.7;
+        }
+
+        .project-overview-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .project-overview-stats div {
+            padding: 17px 12px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--violet-50);
+            text-align: center;
+        }
+
+        .project-overview-stats b {
+            display: block;
+            color: var(--violet-700);
+            font-size: 27px;
+        }
+
+        .project-overview-stats span {
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
         .projects-head {
             margin-bottom: 24px;
             display: flex;
@@ -2097,9 +2155,11 @@
             inset: 0;
             z-index: 60;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             padding: 20px;
+            overflow-y: auto;
+            overscroll-behavior: contain;
         }
 
         .project-modal.hidden {
@@ -2119,8 +2179,8 @@
             border-radius: 24px;
             max-width: 720px;
             width: 100%;
-            max-height: 88vh;
-            overflow-y: auto;
+            margin: auto;
+            overflow: visible;
             box-shadow: 0 40px 80px -20px rgba(23, 15, 54, 0.5);
         }
 
@@ -2191,11 +2251,178 @@
             border-radius: 10px;
         }
 
+        .project-modal-gallery button {
+            padding: 0;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            background: transparent;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .project-modal-gallery button:hover,
+        .project-modal-gallery button:focus-visible {
+            border-color: var(--violet-500);
+            outline: 0;
+        }
+
         .project-modal-tags {
             margin-top: 18px;
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
+        }
+
+        .project-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 16px;
+        }
+
+        .project-links a {
+            display: inline-flex;
+            align-items: center;
+            padding: 9px 13px;
+            border: 1px solid var(--violet-500);
+            border-radius: 999px;
+            color: var(--violet-700);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .project-links a:first-child {
+            background: var(--violet-700);
+            color: #fff;
+        }
+
+        /* Tampilan detail proyek: galeri besar di atas, konten lengkap dapat di-scroll di bawah. */
+        .project-modal {
+            padding: 0;
+            background: #111;
+        }
+
+        .project-modal-card {
+            max-width: none;
+            min-height: 100%;
+            margin: 0;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .project-modal-image {
+            height: min(72vh, 820px);
+            max-height: none;
+            aspect-ratio: auto;
+            border-radius: 0;
+            background: #111;
+            padding: 0;
+            position: relative;
+        }
+
+        .project-modal-image img {
+            background: #111;
+        }
+
+        .project-modal-body {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 42px 30px 64px;
+        }
+
+        .project-modal-gallery {
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        }
+
+        /* Galeri swipe/scroll horizontal untuk foto besar */
+        .project-gallery-scroll {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .project-gallery-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .project-gallery-scroll .gallery-slide {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-gallery-scroll .gallery-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #111;
+        }
+
+        .project-gallery-dots {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 7px;
+            pointer-events: none;
+        }
+
+        .project-gallery-dots span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transition: background .2s ease, transform .2s ease;
+        }
+
+        .project-gallery-dots span.active {
+            background: #fff;
+            transform: scale(1.3);
+        }
+
+        .project-gallery-count {
+            position: absolute;
+            right: 24px;
+            bottom: 20px;
+            padding: 7px 11px;
+            border-radius: 999px;
+            background: #111c;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 800;
+            pointer-events: none;
+        }
+
+        @media (max-width: 600px) {
+            .project-modal-image {
+                height: 54vh;
+            }
+
+            .project-modal-body {
+                padding: 28px 20px 48px;
+            }
+
+            .project-gallery-dots {
+                bottom: 12px;
+            }
+
+            .project-gallery-count {
+                right: 12px;
+                bottom: 12px;
+            }
         }
 
         .project-modal-tags span {
@@ -2484,48 +2711,14 @@
         </section>
 
         <section class="section-wrap pt-0 reveal">
-            <article class="featured-project">
-                <div class="featured-media">
-                    <div class="device-mock">
-                        <div class="laptop-screen">
-                            <span class="pulse-dot"></span>
-                        </div>
-                        <div class="phone-screen"></div>
-                    </div>
-                </div>
+            <article class="project-overview">
                 <div>
-                    <p style="font-size:13px;font-weight:800;text-transform:uppercase;color:var(--amber-100);margin:0;"
-                        data-i18n="featured_project">Featured Project</p>
-                    <h2>Healtack - Aplikasi Layanan Kesehatan</h2>
-                    <p class="tagline">Aplikasi yang membantu pasien mengatur jadwal dan pengingat minum obat secara
-                        otomatis, dilengkapi riwayat kesehatan yang tersimpan rapi. Dibangun sebagai proyek Uji
-                        Kompetensi Keahlian dan dinyatakan kompeten.</p>
-                    <div class="featured-tags">
-                        <span>Laravel</span>
-                        <span>MySQL</span>
-                        <span>Tailwind CSS</span>
-                        <span>Midtrans API</span>
-                    </div>
-                    <button type="button" class="featured-cta project-open"
-                        data-title="Healtack - Aplikasi Layanan Kesehatan" data-category="Website" data-year="2026"
-                        data-description="Healtack adalah aplikasi layanan kesehatan yang membantu pasien mengatur jadwal dan pengingat minum obat secara otomatis, dilengkapi riwayat kesehatan yang tersimpan rapi. Dibangun sebagai proyek Uji Kompetensi Keahlian dan dinyatakan kompeten."
-                        data-image="" data-gallery='[]' data-tags="Laravel, MySQL, Tailwind CSS, Midtrans API"
-                        data-i18n="view_case">View Case Study</button>
+                    <p class="section-kicker">Portfolio Snapshot</p>
+                    <h2>Jelajahi karya berdasarkan kebutuhanmu.</h2>
+                    <p>Gunakan kategori dan pencarian untuk menemukan proyek website, desain, video, maupun fotografi.
+                        Setiap proyek dapat memuat beberapa foto proses dan hasil akhir.</p>
                 </div>
-                <div class="featured-meta">
-                    <div><b>Category</b>
-                        <p>Website</p>
-                    </div>
-                    <div><b>Year</b>
-                        <p>2026</p>
-                    </div>
-                    <div><b>Duration</b>
-                        <p>Uji Kompetensi Keahlian</p>
-                    </div>
-                    <div><b>Role</b>
-                        <p>UI/UX Designer, Front-End Developer</p>
-                    </div>
-                </div>
+                <div class="project-overview-stats" id="projectOverview" aria-label="Ringkasan proyek"></div>
             </article>
         </section>
 
@@ -2680,7 +2873,6 @@
                 <p id="projectModalMeta" class="section-kicker"></p>
                 <h2 id="projectModalTitle"></h2>
                 <p id="projectModalDescription"></p>
-                <div id="projectModalGallery" class="project-modal-gallery"></div>
                 <div id="projectModalTags" class="project-modal-tags"></div>
             </div>
         </article>
@@ -2809,6 +3001,7 @@
             const data = getData();
             const $ = (selector) => document.querySelector(selector);
             const esc = (value) => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
+            const safeUrl = (value) => /^https?:\/\//i.test(String(value || '').trim()) ? String(value).trim() : '';
             const initials = (value) => String(value || 'IT').split(/\s+/).slice(0, 2).map(word => word[0]).join('').toUpperCase();
             const images = (project) => [project.thumbnail, ...(Array.isArray(project.gallery) ? project.gallery : [])].filter(Boolean);
             const gradClasses = ['grad-1', 'grad-2', 'grad-3', 'grad-4'];
@@ -2833,11 +3026,40 @@
                 $('#projectModalTitle').textContent = project.nama_proyek;
                 $('#projectModalMeta').textContent = `${project.kategori_id || 'Project'} · ${project.tahun || ''}`;
                 $('#projectModalDescription').textContent = project.deskripsi_lengkap || project.deskripsi_singkat || '';
-                $('#projectModalImage').innerHTML = gallery[0]
-                    ? `<img src="${gallery[0]}" alt="${esc(project.nama_proyek)}">`
-                    : `<div class="thumb-mono ${gradFor(project, index)}" style="width:100%;height:100%;"><span style="width:72px;height:72px;font-size:26px;">${initials(project.nama_proyek)}</span></div>`;
-                $('#projectModalGallery').innerHTML = gallery.slice(1).map(source => `<img src="${source}" alt="Galeri ${esc(project.nama_proyek)}">`).join('');
-                $('#projectModalTags').innerHTML = [project.kategori_id, project.status, project.tahun].filter(Boolean).map(tag => `<span>${esc(tag)}</span>`).join('');
+
+                const imageWrap = $('#projectModalImage');
+                if (gallery.length === 0) {
+                    imageWrap.innerHTML = `<div class="thumb-mono ${gradFor(project, index)}" style="width:100%;height:100%;"><span style="width:72px;height:72px;font-size:26px;">${initials(project.nama_proyek)}</span></div>`;
+                } else {
+                    const slides = gallery.map((source, i) => `<div class="gallery-slide" data-slide="${i}"><img src="${source}" alt="${esc(project.nama_proyek)} foto ${i + 1}"></div>`).join('');
+                    const dots = gallery.length > 1 ? `<div class="project-gallery-dots">${gallery.map((_, i) => `<span class="${i === 0 ? 'active' : ''}"></span>`).join('')}</div>` : '';
+                    const count = gallery.length > 1 ? `<span class="project-gallery-count">1 / ${gallery.length}</span>` : '';
+                    imageWrap.innerHTML = `<div class="project-gallery-scroll">${slides}</div>${dots}${count}`;
+
+                    const scrollEl = imageWrap.querySelector('.project-gallery-scroll');
+                    const dotEls = imageWrap.querySelectorAll('.project-gallery-dots span');
+                    const countEl = imageWrap.querySelector('.project-gallery-count');
+                    let ticking = false;
+                    scrollEl.addEventListener('scroll', () => {
+                        if (ticking) return;
+                        ticking = true;
+                        requestAnimationFrame(() => {
+                            const idx = Math.round(scrollEl.scrollLeft / scrollEl.clientWidth);
+                            dotEls.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+                            if (countEl) countEl.textContent = `${idx + 1} / ${gallery.length}`;
+                            ticking = false;
+                        });
+                    }, { passive: true });
+
+                    imageWrap.__scrollTo = (i) => {
+                        scrollEl.scrollTo({ left: scrollEl.clientWidth * i, behavior: 'smooth' });
+                    };
+                }
+
+                const demoUrl = safeUrl(project.demo_url);
+                const githubUrl = safeUrl(project.github_url);
+                $('#projectModalTags').innerHTML = [project.kategori_id, project.status, project.tahun].filter(Boolean).map(tag => `<span>${esc(tag)}</span>`).join('')
+                    + ((demoUrl || githubUrl) ? `<div class="project-links">${demoUrl ? `<a href="${esc(demoUrl)}" target="_blank" rel="noreferrer">Lihat Demo ↗</a>` : ''}${githubUrl ? `<a href="${esc(githubUrl)}" target="_blank" rel="noreferrer">GitHub ↗</a>` : ''}</div>` : '');
                 $('#projectModal').classList.remove('hidden');
                 $('#projectModal').setAttribute('aria-hidden', 'false');
             };
@@ -2859,6 +3081,10 @@
 
             $('#metric-projects').textContent = data.projects.length;
             $('#metric-certificates').textContent = data.certificates.length;
+            const overview = $('#projectOverview');
+            const totalPhotos = data.projects.reduce((total, project) => total + images(project).length, 0);
+            const completed = data.projects.filter(project => project.status === 'Selesai').length;
+            overview.innerHTML = `<div><b>${data.projects.length}</b><span>Proyek</span></div><div><b>${completed}</b><span>Selesai</span></div><div><b>${totalPhotos}</b><span>Foto karya</span></div>`;
 
             $('#skillList').innerHTML = data.skills.map(skill => `<div class="skill-chip ${skill.gambar ? 'skill-photo' : 'fallback-logo'}">${skill.gambar ? `<img src="${skill.gambar}" alt="${esc(skill.nama)}">` : `<span>${esc(skill.ikon || initials(skill.nama))}</span>`}<small>${esc(skill.nama)}</small></div>`).join('') || '<p class="empty-dynamic">Belum ada skill.</p>';
 

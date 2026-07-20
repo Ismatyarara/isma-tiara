@@ -4,6 +4,8 @@
     color: #201637
 }
 
+.gallery-admin-preview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:-4px 0 18px}.gallery-admin-preview>p{grid-column:1/-1;margin:0;color:#63748f;font-size:12px}.gallery-admin-preview figure{position:relative;margin:0;aspect-ratio:1;border:1px solid #e0e4ee;border-radius:10px;overflow:hidden;background:#f4f5fa}.gallery-admin-preview img{width:100%;height:100%;object-fit:cover}.gallery-admin-preview button{position:absolute;top:5px;right:5px;width:25px;height:25px;border:0;border-radius:50%;background:#151b2ed9;color:#fff;font-size:19px;line-height:1;cursor:pointer}.gallery-admin-preview button:hover{background:#bd2843}@media(max-width:550px){.gallery-admin-preview{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
 .admin-body:before {
     opacity: .32;
     background-image: radial-gradient(#cdbdff 1px, transparent 1px);
