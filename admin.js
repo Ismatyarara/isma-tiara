@@ -23,7 +23,7 @@ function fieldMarkup([key, label, type, options], item) {
   if (type === 'select') return `<label>${label}<select name="${key}" required>${options.map(option => `<option ${option === value ? 'selected' : ''}>${option}</option>`).join('')}</select></label>`;
   if (type === 'checkbox') return `<label class="check"><input type="checkbox" name="${key}" ${item[key] ? 'checked' : ''}> ${label}</label>`;
   if (type === 'optional-url') return `<label>${label}<input type="url" name="${key}" value="${escapeHtml(value)}" placeholder="https://..."><small>Biarkan kosong bila belum ada.</small></label>`;
-  if (type === 'files') return `<label>${label}<input type="file" name="${key}" accept="image/jpeg,image/png,image/webp" multiple><small>Pilih hingga ${MAX_GALLERY_IMAGES} foto. Foto baru akan ditambahkan ke galeri, lalu otomatis diperkecil agar hemat penyimpanan.</small></label><div class="gallery-admin-preview" id="gallery-preview"></div>`;
+  if (type === 'files') return `<label>${label}<input type="file" name="${key}" accept="image/jpeg,image/png,image/webp" multiple><small>Pilih hingga ${MAX_GALLERY_IMAGES} foto. Foto baru akan ditambahkan ke galeri, lalu otomatis dikompres secukupnya agar hemat penyimpanan.</small></label><div class="gallery-admin-preview" id="gallery-preview"></div>`;
   if (type === 'file') return `<label>${label}<input type="file" name="${key}" accept="image/jpeg,image/png,image/webp"><small>${value ? 'Gambar tersimpan — pilih file lain bila ingin mengganti.' : 'Format gambar JPG, PNG, atau WEBP.'}</small></label>`;
   return `<label>${label}<input type="${type}" name="${key}" value="${escapeHtml(value)}" required></label>`;
 }
@@ -38,8 +38,9 @@ function reset() { editingId = null; drawForm(); }
 
 // --- Kompresi gambar ---
 // Mengubah file gambar jadi base64 JPEG, dengan ukuran & kualitas yang bisa diatur.
-// maxSize lebih kecil dan quality lebih rendah = file lebih ringan, agar lebih hemat kuota localStorage.
-async function readFile(file, maxSize = 800, quality = 0.8) {
+// maxSize & quality dinaikkan dari versi sebelumnya (yang bikin foto galeri buram),
+// supaya foto masih tajam tapi tetap hemat ruang localStorage.
+async function readFile(file, maxSize = 1100, quality = 0.85) {
   if (!file) return null;
 
   return new Promise((resolve, reject) => {
@@ -49,6 +50,7 @@ async function readFile(file, maxSize = 800, quality = 0.8) {
     img.onload = () => {
       let { width, height } = img;
 
+      // Hanya perkecil kalau memang lebih besar dari maxSize — jangan pernah perbesar gambar kecil.
       if (width > height && width > maxSize) {
         height = Math.round((height * maxSize) / width);
         width = maxSize;
@@ -77,7 +79,9 @@ async function readFile(file, maxSize = 800, quality = 0.8) {
     img.src = objectURL;
   });
 }
-async function readFiles(files, maxSize = 640, quality = 0.65) { const results = []; for (const file of [...files]) results.push(await readFile(file, maxSize, quality)); return results; }
+// Foto galeri sebelumnya dipaksa turun ke 640px/65% (jauh lebih rendah dari foto tunggal) — itu penyebab buramnya.
+// Sekarang disamakan mendekati kualitas foto tunggal: 1000px/80%.
+async function readFiles(files, maxSize = 1000, quality = 0.8) { const results = []; for (const file of [...files]) results.push(await readFile(file, maxSize, quality)); return results; }
 
 // Menghitung ukuran total (dalam karakter) semua data yang akan disimpan.
 function estimateSize(data) { return new Blob([JSON.stringify(data)]).size; }
@@ -85,12 +89,14 @@ function estimateSize(data) { return new Blob([JSON.stringify(data)]).size; }
 // Mencoba menyimpan data. Kalau localStorage penuh (QuotaExceededError),
 // otomatis kompres ulang gambar milik item yang baru diedit/ditambah dengan
 // ukuran & kualitas lebih kecil, lalu coba simpan lagi — sampai batas percobaan.
+// Titik awal dinaikkan supaya foto tetap tajam selama kuota masih cukup;
+// baru turun bertahap kalau memang localStorage penuh.
 async function saveWithRetry(item, rawFiles) {
   const attempts = [
-    { maxSize: 640, quality: 0.65 },
-    { maxSize: 600, quality: 0.65 },
-    { maxSize: 450, quality: 0.5 },
-    { maxSize: 320, quality: 0.4 },
+    { maxSize: 1000, quality: 0.8 },
+    { maxSize: 800, quality: 0.72 },
+    { maxSize: 600, quality: 0.6 },
+    { maxSize: 400, quality: 0.45 },
   ];
 
   for (let i = 0; i < attempts.length; i++) {
