@@ -1,7 +1,6 @@
-const ADMIN_EMAIL = 'ismatiara51@gmail.com';
-const ADMIN_PASSWORD = 'ismatiara0908';
-const AUTH_KEY = 'isma-portfolio-admin-auth';
-let adminData = getData();
+const AUTH_KEY = 'isma-portfolio-admin-auth'; // simpan { token, expires }
+let adminData = null;
+let authToken = null;
 let tab = 'dashboard';
 let editingId = null;
 let galleryDraft = [];
@@ -23,7 +22,7 @@ function fieldMarkup([key, label, type, options], item) {
   if (type === 'select') return `<label>${label}<select name="${key}" required>${options.map(option => `<option ${option === value ? 'selected' : ''}>${option}</option>`).join('')}</select></label>`;
   if (type === 'checkbox') return `<label class="check"><input type="checkbox" name="${key}" ${item[key] ? 'checked' : ''}> ${label}</label>`;
   if (type === 'optional-url') return `<label>${label}<input type="url" name="${key}" value="${escapeHtml(value)}" placeholder="https://..."><small>Biarkan kosong bila belum ada.</small></label>`;
-  if (type === 'files') return `<label>${label}<input type="file" name="${key}" accept="image/jpeg,image/png,image/webp" multiple><small>Pilih hingga ${MAX_GALLERY_IMAGES} foto. Foto baru akan ditambahkan ke galeri, lalu otomatis dikompres secukupnya agar hemat penyimpanan.</small></label><div class="gallery-admin-preview" id="gallery-preview"></div>`;
+  if (type === 'files') return `<label>${label}<input type="file" name="${key}" accept="image/jpeg,image/png,image/webp" multiple><small>Pilih hingga ${MAX_GALLERY_IMAGES} foto. Foto baru akan ditambahkan ke galeri lalu diunggah ke server saat disimpan.</small></label><div class="gallery-admin-preview" id="gallery-preview"></div>`;
   if (type === 'file') return `<label>${label}<input type="file" name="${key}" accept="image/jpeg,image/png,image/webp"><small>${value ? 'Gambar tersimpan — pilih file lain bila ingin mengganti.' : 'Format gambar JPG, PNG, atau WEBP.'}</small></label>`;
   return `<label>${label}<input type="${type}" name="${key}" value="${escapeHtml(value)}" required></label>`;
 }
@@ -36,21 +35,16 @@ function updateSummary() { $('#summary-projects').textContent = adminData.projec
 function selectTab(nextTab) { tab = nextTab; editingId = null; document.querySelectorAll('.tab').forEach(item => item.classList.toggle('active', item.dataset.tab === tab)); const dashboard = tab === 'dashboard'; $('#dashboard-view').hidden = !dashboard; $('#editor').hidden = dashboard; $('#page-title').textContent = dashboard ? 'Dashboard' : labels[tab][0].toUpperCase() + labels[tab].slice(1); if (!dashboard) { drawForm(); drawList(); } updateSummary(); }
 function reset() { editingId = null; drawForm(); }
 
-// --- Kompresi gambar ---
-// Mengubah file gambar jadi base64 JPEG, dengan ukuran & kualitas yang bisa diatur.
-// maxSize & quality dinaikkan dari versi sebelumnya (yang bikin foto galeri buram),
-// supaya foto masih tajam tapi tetap hemat ruang localStorage.
-async function readFile(file, maxSize = 1100, quality = 0.85) {
+// --- Baca file jadi base64 JPEG, dengan resize ringan hanya kalau gambar aslinya lebih besar dari batas ---
+// Tidak ada lagi kompresi agresif seperti versi localStorage lama (itu penyebab foto buram).
+// Batas dinaikkan karena sekarang tersimpan di Vercel Blob Storage, bukan localStorage browser.
+async function readFileAsDataUrl(file, maxSize = 1600, quality = 0.88) {
   if (!file) return null;
-
   return new Promise((resolve, reject) => {
     const img = new Image();
     const objectURL = URL.createObjectURL(file);
-
     img.onload = () => {
       let { width, height } = img;
-
-      // Hanya perkecil kalau memang lebih besar dari maxSize — jangan pernah perbesar gambar kecil.
       if (width > height && width > maxSize) {
         height = Math.round((height * maxSize) / width);
         width = maxSize;
@@ -58,77 +52,71 @@ async function readFile(file, maxSize = 1100, quality = 0.85) {
         width = Math.round((width * maxSize) / height);
         height = maxSize;
       }
-
-      const canvas = document.createElement("canvas");
+      const canvas = document.createElement('canvas');
       canvas.width = width;
       canvas.height = height;
-
-      const ctx = canvas.getContext("2d");
+      const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, width, height);
-
       URL.revokeObjectURL(objectURL);
-
-      resolve(canvas.toDataURL("image/jpeg", quality));
+      resolve(canvas.toDataURL('image/jpeg', quality));
     };
-
-    img.onerror = () => {
-      URL.revokeObjectURL(objectURL);
-      reject(new Error("Gagal membaca gambar."));
-    };
-
+    img.onerror = () => { URL.revokeObjectURL(objectURL); reject(new Error('Gagal membaca gambar.')); };
     img.src = objectURL;
   });
 }
-// Foto galeri sebelumnya dipaksa turun ke 640px/65% (jauh lebih rendah dari foto tunggal) — itu penyebab buramnya.
-// Sekarang disamakan mendekati kualitas foto tunggal: 1000px/80%.
-async function readFiles(files, maxSize = 1000, quality = 0.8) { const results = []; for (const file of [...files]) results.push(await readFile(file, maxSize, quality)); return results; }
 
-// Menghitung ukuran total (dalam karakter) semua data yang akan disimpan.
-function estimateSize(data) { return new Blob([JSON.stringify(data)]).size; }
+// Upload satu gambar (dataURL base64) ke /api/upload, hasilnya URL Vercel Blob.
+async function uploadImage(dataUrl, filename) {
+  const [, contentType, base64Body] = dataUrl.match(/^data:([^;]+);base64,(.*)$/) || [];
+  if (!base64Body) throw new Error('Format gambar tidak dikenali.');
 
-// Mencoba menyimpan data. Kalau localStorage penuh (QuotaExceededError),
-// otomatis kompres ulang gambar milik item yang baru diedit/ditambah dengan
-// ukuran & kualitas lebih kecil, lalu coba simpan lagi — sampai batas percobaan.
-// Titik awal dinaikkan supaya foto tetap tajam selama kuota masih cukup;
-// baru turun bertahap kalau memang localStorage penuh.
-async function saveWithRetry(item, rawFiles) {
-  const attempts = [
-    { maxSize: 1000, quality: 0.8 },
-    { maxSize: 800, quality: 0.72 },
-    { maxSize: 600, quality: 0.6 },
-    { maxSize: 400, quality: 0.45 },
-  ];
+  const response = await fetch('/api/upload', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` },
+    body: JSON.stringify({ filename, contentType, dataBase64: base64Body }),
+  });
 
-  for (let i = 0; i < attempts.length; i++) {
-    const { maxSize, quality } = attempts[i];
-
-    // Kompres ulang hanya file gambar yang baru dipilih di percobaan > 0
-    if (i > 0) {
-      for (const key of Object.keys(rawFiles.single)) {
-        const file = rawFiles.single[key];
-        if (file) item[key] = await readFile(file, maxSize, quality);
-      }
-      if (rawFiles.gallery.length) {
-        item.gallery = [...rawFiles.existingGallery, ...await readFiles(rawFiles.gallery, maxSize, quality)].slice(0, MAX_GALLERY_IMAGES);
-      }
-    }
-
-    try {
-      saveData(adminData);
-      return true;
-    } catch (err) {
-      const isQuotaError = err && (err.name === 'QuotaExceededError' || err.name === 'NS_ERROR_DOM_QUOTA_REACHED');
-      if (!isQuotaError || i === attempts.length - 1) {
-        throw err;
-      }
-      // lanjut ke percobaan berikutnya dengan kompresi lebih agresif
-    }
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}));
+    throw new Error(body.error || 'Gagal mengunggah gambar.');
   }
-  return false;
+  const { url } = await response.json();
+  return url;
+}
+
+// Upload beberapa file sekaligus (dipakai untuk galeri), mengembalikan array URL.
+async function uploadImages(files) {
+  const urls = [];
+  for (const file of files) {
+    const dataUrl = await readFileAsDataUrl(file, 1400, 0.85);
+    urls.push(await uploadImage(dataUrl, file.name));
+  }
+  return urls;
 }
 
 window.editItem = id => { editingId = id; drawForm(adminData[tab].find(item => item.id === id)); window.scrollTo({ top: 0, behavior: 'smooth' }); };
-window.deleteItem = id => { if (confirm('Hapus item ini?')) { adminData[tab] = adminData[tab].filter(item => item.id !== id); saveData(adminData); drawList(); updateSummary(); reset(); } };
+window.deleteItem = async id => {
+  if (!confirm('Hapus item ini?')) return;
+  const previous = adminData[tab];
+  adminData[tab] = adminData[tab].filter(item => item.id !== id);
+  try {
+    await saveData(adminData, authToken);
+  } catch (err) {
+    adminData[tab] = previous; // rollback kalau gagal simpan
+    alert(err.message || 'Gagal menghapus item.');
+    return;
+  }
+  drawList();
+  updateSummary();
+  reset();
+};
+
+function setFormBusy(busy, message) {
+  const submitButton = $('#item-form button[type="submit"]');
+  if (submitButton) submitButton.disabled = busy;
+  const status = $('#form-status');
+  if (status) status.textContent = busy ? (message || 'Menyimpan...') : '';
+}
 
 function initialiseApp() {
   $('#login-screen').hidden = true;
@@ -146,42 +134,48 @@ function initialiseApp() {
     const current = editingId ? adminData[tab].find(item => item.id === editingId) : {};
     if (tab === 'projects') values.unggulan = form.elements.unggulan.checked;
 
-    // Simpan referensi file mentah supaya bisa dikompres ulang kalau perlu
-    const rawFiles = { single: {}, gallery: [], existingGallery: [...galleryDraft] };
-
-    for (const key of ['thumbnail', 'banner', 'gambar']) {
-      if (form.elements[key]) {
-        const file = form.elements[key].files[0];
-        rawFiles.single[key] = file || null;
-        values[key] = file ? await readFile(file) : (current[key] || '');
-      }
-    }
-    if (form.elements.gallery) {
-      const files = galleryPendingFiles;
-      if (files.length + galleryDraft.length > MAX_GALLERY_IMAGES) {
-        alert(`Galeri maksimal ${MAX_GALLERY_IMAGES} foto. Hapus foto yang tidak diperlukan atau pilih lebih sedikit foto.`);
-        return;
-      }
-      rawFiles.gallery = [...files];
-      values.gallery = files.length ? [...galleryDraft, ...await readFiles(files)] : [...galleryDraft];
-    }
-
-    let targetItem;
-    if (editingId) {
-      Object.assign(current, values);
-      targetItem = current;
-    } else {
-      targetItem = { id: Date.now(), ...values };
-      adminData[tab].push(targetItem);
-    }
-
+    setFormBusy(true, 'Mengunggah gambar...');
     try {
-      await saveWithRetry(targetItem, rawFiles);
-    } catch {
-      alert('Ukuran gambar masih terlalu besar untuk penyimpanan browser meski sudah dikompres maksimal. Coba unggah foto dengan resolusi lebih kecil, atau hapus beberapa item/gambar lama untuk mengosongkan ruang.');
+      for (const key of ['thumbnail', 'banner', 'gambar']) {
+        if (form.elements[key]) {
+          const file = form.elements[key].files[0];
+          if (file) {
+            const dataUrl = await readFileAsDataUrl(file);
+            values[key] = await uploadImage(dataUrl, file.name);
+          } else {
+            values[key] = current[key] || '';
+          }
+        }
+      }
+
+      if (form.elements.gallery) {
+        if (galleryPendingFiles.length + galleryDraft.length > MAX_GALLERY_IMAGES) {
+          alert(`Galeri maksimal ${MAX_GALLERY_IMAGES} foto. Hapus foto yang tidak diperlukan atau pilih lebih sedikit foto.`);
+          setFormBusy(false);
+          return;
+        }
+        const newUrls = galleryPendingFiles.length ? await uploadImages(galleryPendingFiles) : [];
+        values.gallery = [...galleryDraft, ...newUrls];
+      }
+
+      let targetItem;
+      if (editingId) {
+        Object.assign(current, values);
+        targetItem = current;
+      } else {
+        targetItem = { id: Date.now(), ...values };
+        adminData[tab].push(targetItem);
+      }
+
+      setFormBusy(true, 'Menyimpan data...');
+      await saveData(adminData, authToken);
+    } catch (err) {
+      alert(err.message || 'Terjadi kesalahan saat menyimpan.');
+      setFormBusy(false);
       return;
     }
 
+    setFormBusy(false);
     drawList();
     updateSummary();
     reset();
@@ -190,16 +184,54 @@ function initialiseApp() {
   $('#cancel').onclick = reset;
 }
 
-$('#login-form').onsubmit = event => {
+async function bootAdminApp() {
+  $('#login-screen').hidden = false;
+  try {
+    adminData = await getData();
+  } catch (err) {
+    alert('Gagal memuat data dari server. Coba muat ulang halaman.');
+    return;
+  }
+  initialiseApp();
+}
+
+$('#login-form').onsubmit = async event => {
   event.preventDefault();
   const email = $('#admin-email').value.trim().toLowerCase();
   const password = $('#admin-password').value;
-  if (email !== ADMIN_EMAIL || password !== ADMIN_PASSWORD) {
-    $('#login-error').textContent = 'Email atau password tidak sesuai. Akses ditolak.';
-    return;
+  const errorBox = $('#login-error');
+  errorBox.textContent = '';
+
+  const submitButton = event.currentTarget.querySelector('button[type="submit"]');
+  if (submitButton) submitButton.disabled = true;
+
+  try {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    const body = await response.json();
+    if (!response.ok) throw new Error(body.error || 'Login gagal.');
+
+    localStorage.setItem(AUTH_KEY, JSON.stringify({ token: body.token, expires: body.expires }));
+    authToken = body.token;
+    await bootAdminApp();
+  } catch (err) {
+    errorBox.textContent = err.message || 'Email atau password tidak sesuai. Akses ditolak.';
+  } finally {
+    if (submitButton) submitButton.disabled = false;
   }
-  localStorage.setItem(AUTH_KEY, 'authenticated');
-  initialiseApp();
 };
 
-if (localStorage.getItem(AUTH_KEY) === 'authenticated') initialiseApp();
+(function checkExistingSession() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(AUTH_KEY) || 'null');
+    if (saved && saved.token && saved.expires > Date.now()) {
+      authToken = saved.token;
+      bootAdminApp();
+    }
+  } catch {
+    localStorage.removeItem(AUTH_KEY);
+  }
+})();

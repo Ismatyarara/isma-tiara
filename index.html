@@ -2997,8 +2997,8 @@
     </script>
     <script src="data.js"></script>
     <script>
-        (() => {
-            const data = getData();
+        (async () => {
+            const data = await getData();
             const $ = (selector) => document.querySelector(selector);
             const esc = (value) => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
             const safeUrl = (value) => /^https?:\/\//i.test(String(value || '').trim()) ? String(value).trim() : '';
@@ -3116,7 +3116,6 @@
             renderCertificates();
 
             $('#beyondList').innerHTML = data.beyond.map((item, index) => `<figure class="panel hobby-card">${item.gambar ? `<img src="${item.gambar}" alt="${esc(item.nama)}">` : `<div class="hobby-placeholder ${gradClasses[index % gradClasses.length]}">${initials(item.nama)}</div>`}<figcaption><b>${esc(item.nama)}</b><span>${esc(item.deskripsi)}</span></figcaption></figure>`).join('') || '<p class="empty-dynamic">Belum ada aktivitas Beyond Work.</p>';
-            window.addEventListener('storage', event => { if (event.key === STORAGE_KEY) window.location.reload(); });
         })();
     </script>
 </body>

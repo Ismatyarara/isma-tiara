@@ -41,25 +41,48 @@ const defaultData = {
     { id: 3, nama: 'Learning', deskripsi: 'Belajar dan mencoba hal-hal baru.', gambar: '' }
   ]
 };
-const STORAGE_KEY = 'isma-portfolio-data-v3';
 
 // Pengganti structuredClone() -> lebih aman untuk browser/WebView lama
-// (browser bawaan WhatsApp/Instagram, Android WebView versi lama, dll)
 function cloneData(value) {
   return JSON.parse(JSON.stringify(value));
 }
 
-function getData() {
+// Ambil data dari backend (Vercel Blob, lewat /api/portfolio).
+// Kalau belum pernah disimpan sama sekali (baru pertama deploy) atau request gagal
+// (misal offline), pakai defaultData supaya halaman tetap tampil.
+async function getData() {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    return saved
-      ? { ...cloneData(defaultData), ...saved, beyond: saved.beyond || cloneData(defaultData.beyond) }
-      : cloneData(defaultData);
-  } catch {
+    const response = await fetch('/api/portfolio', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Gagal mengambil data dari server.');
+    const saved = await response.json();
+    if (!saved) return cloneData(defaultData);
+    return {
+      ...cloneData(defaultData),
+      ...saved,
+      beyond: saved.beyond || cloneData(defaultData.beyond),
+    };
+  } catch (err) {
+    console.error('getData() gagal, pakai data default:', err);
     return cloneData(defaultData);
   }
 }
 
-function saveData(data) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+// Simpan seluruh data ke backend. Butuh token admin yang valid (lihat admin.js).
+// Melempar error kalau gagal, supaya pemanggil bisa menampilkan pesan ke user.
+async function saveData(data, token) {
+  const response = await fetch('/api/portfolio', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}));
+    throw new Error(body.error || 'Gagal menyimpan data ke server.');
+  }
+
+  return true;
 }
