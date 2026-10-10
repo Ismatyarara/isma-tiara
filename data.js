@@ -36,9 +36,9 @@ const defaultData = {
     { id: 2, nama_sertifikat: 'Kelas Industri', penerbit: 'PT Dwi Purwa Teknologi', tahun: '2025', gambar: '', tautan_sertifikat: '' }
   ],
   beyond: [
-    { id: 1, nama: 'Photography', deskripsi: 'Mengabadikan momen melalui foto.', gambar: '' },
-    { id: 2, nama: 'Music', deskripsi: 'Mendengarkan musik untuk mengisi energi.', gambar: '' },
-    { id: 3, nama: 'Learning', deskripsi: 'Belajar dan mencoba hal-hal baru.', gambar: '' }
+    { id: 1, nama: 'Photography', deskripsi: 'Mengabadikan momen melalui foto.', gambar: '', gallery: [] },
+    { id: 2, nama: 'Music', deskripsi: 'Mendengarkan musik untuk mengisi energi.', gambar: '', gallery: [] },
+    { id: 3, nama: 'Learning', deskripsi: 'Belajar dan mencoba hal-hal baru.', gambar: '', gallery: [] }
   ]
 };
 
