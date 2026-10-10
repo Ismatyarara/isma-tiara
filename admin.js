@@ -6,7 +6,6 @@ let editingId = null;
 let galleryDraft = [];
 let galleryPendingFiles = [];
 let galleryPendingUrls = [];
-const MAX_GALLERY_IMAGES = 8;
 const $ = selector => document.querySelector(selector);
 const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
 const labels = { projects: 'proyek', skills: 'skill', certificates: 'sertifikat', beyond: 'hobi' };
@@ -22,12 +21,12 @@ function fieldMarkup([key, label, type, options], item) {
   if (type === 'select') return `<label>${label}<select name="${key}" required>${options.map(option => `<option ${option === value ? 'selected' : ''}>${option}</option>`).join('')}</select></label>`;
   if (type === 'checkbox') return `<label class="check"><input type="checkbox" name="${key}" ${item[key] ? 'checked' : ''}> ${label}</label>`;
   if (type === 'optional-url') return `<label>${label}<input type="url" name="${key}" value="${escapeHtml(value)}" placeholder="https://..."><small>Biarkan kosong bila belum ada.</small></label>`;
-  if (type === 'files') return `<label>${label}<input type="file" name="${key}" accept="image/jpeg,image/png,image/webp" multiple><small>Pilih hingga ${MAX_GALLERY_IMAGES} foto. Foto baru akan ditambahkan ke galeri lalu diunggah ke server saat disimpan.</small></label><div class="gallery-admin-preview" id="gallery-preview"></div>`;
+  if (type === 'files') return `<label>${label}<input type="file" name="${key}" accept="image/jpeg,image/png,image/webp" multiple><small>Pilih foto sebanyak yang diperlukan. Foto baru akan ditambahkan ke galeri lalu diunggah ke server saat disimpan.</small></label><div class="gallery-admin-preview" id="gallery-preview"></div>`;
   if (type === 'file') return `<label>${label}<input type="file" name="${key}" accept="image/jpeg,image/png,image/webp"><small>${value ? 'Gambar tersimpan — pilih file lain bila ingin mengganti.' : 'Format gambar JPG, PNG, atau WEBP.'}</small></label>`;
   return `<label>${label}<input type="${type}" name="${key}" value="${escapeHtml(value)}" required></label>`;
 }
 function renderGalleryPreview() { const preview = $('#gallery-preview'); if (!preview) return; galleryPendingUrls.forEach(URL.revokeObjectURL); galleryPendingUrls = galleryPendingFiles.map(file => URL.createObjectURL(file)); const saved = galleryDraft.map((source, index) => `<figure><img src="${source}" alt="Foto galeri ${index + 1}"><button type="button" data-remove-gallery="${index}" aria-label="Hapus foto ${index + 1}">×</button></figure>`).join(''); const pending = galleryPendingUrls.map((source, index) => `<figure class="gallery-pending"><img src="${source}" alt="Foto baru ${index + 1}"><button type="button" data-remove-pending="${index}" aria-label="Batalkan foto baru ${index + 1}">×</button></figure>`).join(''); preview.innerHTML = saved || pending ? saved + pending : '<p>Belum ada foto galeri.</p>'; preview.querySelectorAll('[data-remove-gallery]').forEach(button => button.onclick = () => { galleryDraft.splice(Number(button.dataset.removeGallery), 1); renderGalleryPreview(); }); preview.querySelectorAll('[data-remove-pending]').forEach(button => button.onclick = () => { galleryPendingFiles.splice(Number(button.dataset.removePending), 1); renderGalleryPreview(); }); }
-function drawForm(item = {}) { galleryDraft = Array.isArray(item.gallery) ? [...item.gallery] : []; galleryPendingFiles = []; $('#form-title').textContent = `${editingId ? 'Edit' : 'Tambah'} ${labels[tab]}`; $('#form-fields').innerHTML = fieldSets[tab].map(field => fieldMarkup(field, item)).join(''); renderGalleryPreview(); const galleryInput = document.querySelector('input[name="gallery"]'); if (galleryInput) galleryInput.onchange = () => { galleryPendingFiles = [...galleryInput.files]; if (galleryDraft.length + galleryPendingFiles.length > MAX_GALLERY_IMAGES) { alert(`Galeri maksimal ${MAX_GALLERY_IMAGES} foto.`); galleryPendingFiles = []; galleryInput.value = ''; } renderGalleryPreview(); }; }
+function drawForm(item = {}) { galleryDraft = Array.isArray(item.gallery) ? [...item.gallery] : []; galleryPendingFiles = []; $('#form-title').textContent = `${editingId ? 'Edit' : 'Tambah'} ${labels[tab]}`; $('#form-fields').innerHTML = fieldSets[tab].map(field => fieldMarkup(field, item)).join(''); renderGalleryPreview(); const galleryInput = document.querySelector('input[name="gallery"]'); if (galleryInput) galleryInput.onchange = () => { galleryPendingFiles = [...galleryInput.files]; renderGalleryPreview(); }; }
 function itemTitle(item) { return item.nama_proyek || item.nama_sertifikat || item.nama; }
 function itemMeta(item) { return item.kategori_id || item.penerbit || item.ikon || ''; }
 function drawList() { const list = adminData[tab]; $('#admin-list').innerHTML = list.length ? list.map(item => `<div class="admin-item"><div><b>${escapeHtml(itemTitle(item))}</b><span>${escapeHtml(itemMeta(item))}</span></div><p><button type="button" onclick="editItem(${item.id})">Edit</button><button type="button" onclick="deleteItem(${item.id})">Hapus</button></p></div>`).join('') : '<p>Belum ada data.</p>'; }
@@ -149,11 +148,6 @@ function initialiseApp() {
       }
 
       if (form.elements.gallery) {
-        if (galleryPendingFiles.length + galleryDraft.length > MAX_GALLERY_IMAGES) {
-          alert(`Galeri maksimal ${MAX_GALLERY_IMAGES} foto. Hapus foto yang tidak diperlukan atau pilih lebih sedikit foto.`);
-          setFormBusy(false);
-          return;
-        }
         const newUrls = galleryPendingFiles.length ? await uploadImages(galleryPendingFiles) : [];
         values.gallery = [...galleryDraft, ...newUrls];
       }
