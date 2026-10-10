@@ -189,6 +189,14 @@ async function bootAdminApp() {
   initialiseApp();
 }
 
+const passwordToggle = $('#toggle-password');
+if (passwordToggle) passwordToggle.onclick = () => {
+  const input = $('#admin-password');
+  const visible = input.type === 'text';
+  input.type = visible ? 'password' : 'text';
+  passwordToggle.textContent = visible ? 'Tampilkan' : 'Sembunyikan';
+  passwordToggle.setAttribute('aria-label', visible ? 'Tampilkan password' : 'Sembunyikan password');
+};
 $('#login-form').onsubmit = async event => {
   event.preventDefault();
   const email = $('#admin-email').value.trim().toLowerCase();

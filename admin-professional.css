@@ -487,3 +487,4 @@
         padding: 20px
     }
 }
+.password-row{display:flex;gap:8px}.password-row input{min-width:0}.password-row button{border:1px solid #d8def0;background:#fff;border-radius:8px;padding:0 10px;color:#465582;font-size:12px;font-weight:700;cursor:pointer}

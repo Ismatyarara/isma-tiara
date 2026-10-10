@@ -1,18 +1,38 @@
-# Isma Portfolio CMS (static)
+# Isma Portfolio CMS
 
-Situs ini murni HTML, CSS, dan JavaScript. Tidak ada build command: unggah folder ini langsung ke Vercel.
+Website statis HTML/CSS/JavaScript yang memakai **Vercel Serverless Functions + Vercel Blob**. Konten yang disimpan dari admin tersinkron ke halaman publik melalui `/api/portfolio`.
 
-## Admin
+## Konfigurasi Vercel (wajib sebelum login)
 
-- Buka `admin.html` dan masuk memakai kredensial yang telah ditetapkan.
-- Dashboard menampilkan hitungan proyek, sertifikat, dan skill secara otomatis.
-- Kelola proyek, sertifikat, dan skill dari menu samping. Perubahan disimpan ke `localStorage` browser.
+Tambahkan environment variables berikut di **Vercel → Project → Settings → Environment Variables**, untuk Production dan Preview:
 
-## Fitur halaman publik
+- `BLOB_READ_WRITE_TOKEN`: token dari Vercel Blob Store.
+- `ADMIN_EMAIL`: alamat email admin.
+- `ADMIN_PASSWORD_HASH`: hash PBKDF2 password; **jangan** masukkan password mentah.
+- `ADMIN_API_SECRET`: string acak panjang (minimal 32 karakter) untuk menandatangani sesi.
 
-- Filter proyek: Semua, Website, UI/UX Design, Mobile App, Video, dan Photography.
-- Sertifikat awalnya hanya menampilkan maksimal tiga item. Tombol **Lihat semua sertifikat** muncul otomatis saat jumlahnya lebih dari tiga.
+Buat hash password di komputer sendiri (jangan jalankan di browser publik):
 
-## Catatan keamanan dan data
+```powershell
+node -e "const c=require('crypto'); const salt=c.randomBytes(16); const hash=c.pbkdf2Sync(process.argv[1],salt,210000,64,'sha512'); console.log('pbkdf2-sha512$210000$'+salt.toString('base64url')+'$'+hash.toString('base64url'))" "PASSWORD_BARU"
+```
 
-Karena ini situs statis, kredensial ada di JavaScript dan proteksi login hanya mencegah akses melalui antarmuka browser. Ini cocok untuk CMS demo atau personal yang di-hosting statis, tetapi bukan keamanan server yang sesungguhnya. Untuk akses admin yang benar-benar aman dan data yang sama untuk semua pengunjung, sambungkan autentikasi dan penyimpanan ke layanan seperti Supabase atau Firebase.
+Salin hasilnya ke `ADMIN_PASSWORD_HASH`. Buat secret sesi, misalnya dengan `node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"`.
+
+## Alur CMS
+
+1. Buka `/admin.html`, masuk memakai email dan password admin.
+2. Kelola proyek (termasuk cover dan galeri), sertifikat, skill, serta hobi dan galeri foto.
+3. Gambar diunggah ke Vercel Blob; yang tersimpan di data portfolio adalah URL gambar.
+4. Perubahan disimpan melalui API terlindungi dan langsung dibaca halaman publik setelah refresh.
+
+## Keamanan
+
+- Login memverifikasi `ADMIN_PASSWORD_HASH` menggunakan PBKDF2-SHA512 dan perbandingan konstan.
+- Sesi bertanda tangan HMAC, berlaku 12 jam, dan endpoint tulis/upload memerlukan token valid.
+- Endpoint login membatasi percobaan berulang per instance serverless. Untuk rate limit global, tambahkan Vercel WAF atau layanan rate limit terkelola.
+- Jangan commit `.env`, token Blob, password, atau `ADMIN_API_SECRET` ke GitHub.
+
+## Pengujian manual
+
+Uji login, logout, tambah/edit/hapus data, upload/ganti gambar, refresh halaman publik, filter proyek, dan lightbox galeri. Jika login mengembalikan pesan konfigurasi, periksa tiga environment variables admin di atas lalu redeploy.
