@@ -8,16 +8,24 @@
 </head>
 <body class="admin-body">
   <section id="login-screen" class="login-screen">
-    <form id="login-form" class="login-card">
-      <a href="index.html" class="cms-logo"><img src="assets/images/logo-isma.jpeg" alt="Isma Studio"></a>
-      <p class="eyebrow">ADMIN LOGIN</p><h1>Welcome back, Isma.</h1><p>Masuk untuk tambah skill, sertifikat, dan konten portfolio.</p>
-      <label>Email<input id="admin-email" type="email" autocomplete="username" required></label>
-      <label>Password<span class="password-row"><input id="admin-password" type="password" autocomplete="current-password" required><button id="toggle-password" type="button" aria-label="Tampilkan password">Tampilkan</button></span></label>
-      <p id="login-error" class="login-error" aria-live="polite"></p><button class="button" type="submit">LOG IN</button>
-      <a class="text-link back-link" href="index.html">← Kembali ke portfolio</a>
-    </form>
-  </section>
-  <div id="admin-app" class="cms-shell" hidden>
+    <div class="login-layout">
+      <aside class="login-intro" aria-label="Informasi admin portfolio">
+        <a href="index.html" class="cms-logo"><img src="assets/images/logo-isma.jpeg" alt="Isma Tiara Zalianti"></a>
+        <p class="login-kicker">Portfolio content studio</p>
+        <h1>Welcome to your <em>creative space.</em></h1>
+        <p>Kelola proyek, sertifikat, skill, dan cerita di balik portfolio Isma dari satu ruang kerja yang aman.</p>
+        <div class="login-art" aria-hidden="true"><span></span><i>✦</i><b>Content<br>with care.</b></div>
+        <a class="login-return" href="index.html">← Kembali ke portfolio</a>
+      </aside>
+      <form id="login-form" class="login-card" novalidate>
+        <p class="eyebrow">ADMIN ACCESS</p><h2>Masuk ke dashboard.</h2><p>Gunakan email dan password admin untuk melanjutkan.</p>
+        <label>Email<input id="admin-email" type="email" autocomplete="username" inputmode="email" required aria-describedby="login-error" placeholder="nama@email.com"></label>
+        <label>Password<span class="password-row"><input id="admin-password" type="password" autocomplete="current-password" required minlength="8" aria-describedby="login-error" placeholder="Masukkan password"><button id="toggle-password" type="button" aria-label="Tampilkan password">Tampilkan</button></span></label>
+        <p id="login-error" class="login-error" aria-live="polite"></p><button class="button login-submit" type="submit"><span>Log in</span><i aria-hidden="true"></i></button>
+        <a class="text-link mobile-return" href="index.html">← Kembali ke portfolio</a>
+      </form>
+    </div>
+  </section>  <div id="admin-app" class="cms-shell" hidden>
     <aside class="cms-sidebar"><a href="index.html" class="cms-logo"><img src="assets/images/logo-isma.jpeg" alt="Isma Studio"></a><p class="cms-label">ISMA PORTFOLIO CMS</p>
       <nav class="cms-nav"><button class="tab active" data-tab="dashboard"><i>DB</i> Dashboard</button><button class="tab" data-tab="projects"><i>PR</i> Projects</button><button class="tab" data-tab="certificates"><i>CT</i> Certificates</button><button class="tab" data-tab="skills"><i>SK</i> Skills &amp; Tools</button><button class="tab" data-tab="beyond"><i>HB</i> Hobi &amp; Galeri</button><a href="index.html"><i>↗</i> Lihat Portfolio</a><button id="logout" class="logout" type="button">Keluar</button></nav>
     </aside>

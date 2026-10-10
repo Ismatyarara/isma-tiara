@@ -202,30 +202,33 @@ $('#login-form').onsubmit = async event => {
   const email = $('#admin-email').value.trim().toLowerCase();
   const password = $('#admin-password').value;
   const errorBox = $('#login-error');
-  errorBox.textContent = '';
-
   const submitButton = event.currentTarget.querySelector('button[type="submit"]');
-  if (submitButton) submitButton.disabled = true;
-
+  const submitLabel = submitButton?.querySelector('span');
+  errorBox.textContent = ''; errorBox.classList.remove('success');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errorBox.textContent = 'Masukkan alamat email yang valid.'; $('#admin-email').focus(); return; }
+  if (!password) { errorBox.textContent = 'Masukkan password untuk melanjutkan.'; $('#admin-password').focus(); return; }
+  if (submitButton) { submitButton.disabled = true; submitButton.classList.add('is-loading'); }
+  if (submitLabel) submitLabel.textContent = 'Memeriksa akses…';
+  const controller = new AbortController(); const timeout = setTimeout(() => controller.abort(), 15000);
   try {
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
-    const body = await response.json();
-    if (!response.ok) throw new Error(body.error || 'Login gagal.');
-
+    const response = await fetch('/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ email, password }), signal: controller.signal, cache: 'no-store' });
+    const body = await response.json().catch(() => ({}));
+    if (!response.ok) throw Object.assign(new Error(body.error || 'Server tidak dapat memproses login saat ini.'), { status: response.status });
+    if (!body.token || !body.expires) throw new Error('Respons login tidak lengkap. Silakan coba lagi.');
     localStorage.setItem(AUTH_KEY, JSON.stringify({ token: body.token, expires: body.expires }));
-    authToken = body.token;
+    authToken = body.token; errorBox.textContent = 'Login berhasil. Membuka dashboard…'; errorBox.classList.add('success');
     await bootAdminApp();
   } catch (err) {
-    errorBox.textContent = err.message || 'Email atau password tidak sesuai. Akses ditolak.';
+    if (err.name === 'AbortError') errorBox.textContent = 'Koneksi ke server terlalu lama. Periksa jaringan lalu coba lagi.';
+    else if (err instanceof TypeError) errorBox.textContent = 'Tidak dapat terhubung ke server login. Coba muat ulang halaman atau periksa koneksi internet.';
+    else if (err.status >= 500) errorBox.textContent = 'Server belum siap dikonfigurasi. Hubungi pemilik website untuk memeriksa pengaturan Vercel.';
+    else errorBox.textContent = err.message || 'Login gagal. Periksa email dan password.';
   } finally {
-    if (submitButton) submitButton.disabled = false;
+    clearTimeout(timeout);
+    if (submitButton) { submitButton.disabled = false; submitButton.classList.remove('is-loading'); }
+    if (submitLabel) submitLabel.textContent = 'Log in';
   }
 };
-
 (function checkExistingSession() {
   try {
     const saved = JSON.parse(localStorage.getItem(AUTH_KEY) || 'null');
