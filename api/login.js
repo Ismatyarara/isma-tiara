@@ -11,6 +11,11 @@ function passwordMatches(password, encoded) {
   const target = Buffer.from(expected, 'base64url');
   return actual.length === target.length && crypto.timingSafeEqual(actual, target);
 }
+function plainPasswordMatches(password, expected) {
+  const actual = Buffer.from(String(password));
+  const target = Buffer.from(String(expected || ''));
+  return actual.length === target.length && crypto.timingSafeEqual(actual, target);
+}
 function signSession(secret) {
   const payload = Buffer.from(JSON.stringify({ exp: Date.now() + 12 * 60 * 60 * 1000, jti: crypto.randomBytes(16).toString('hex') })).toString('base64url');
   const signature = crypto.createHmac('sha256', secret).update(payload).digest('base64url');
@@ -24,9 +29,12 @@ async function handler(req, res) {
   if (record && record.blockedUntil > now) return res.status(429).json({ error: 'Terlalu banyak percobaan login. Coba lagi beberapa menit lagi.' });
   if (record && record.windowStart + WINDOW_MS <= now) attempts.delete(ip);
   const adminEmail = String(process.env.ADMIN_EMAIL || '').trim().toLowerCase();
-  const passwordHash = process.env.ADMIN_PASSWORD_HASH; const secret = process.env.ADMIN_API_SECRET;
-  if (!adminEmail || !passwordHash || !secret) return res.status(500).json({ error: 'Server belum dikonfigurasi. Tambahkan ADMIN_EMAIL, ADMIN_PASSWORD_HASH, dan ADMIN_API_SECRET di Vercel.' });
-  if (email !== adminEmail || !passwordMatches(password, passwordHash)) {
+  const passwordHash = process.env.ADMIN_PASSWORD_HASH;
+  const plainPassword = process.env.ADMIN_PASSWORD;
+  const secret = process.env.ADMIN_API_SECRET;
+  if (!adminEmail || (!passwordHash && !plainPassword) || !secret) return res.status(500).json({ error: 'Server belum dikonfigurasi. Tambahkan ADMIN_EMAIL, ADMIN_PASSWORD, dan ADMIN_API_SECRET di Vercel.' });
+  const validPassword = passwordHash ? passwordMatches(password, passwordHash) : plainPasswordMatches(password, plainPassword);
+  if (email !== adminEmail || !validPassword) {
     const fresh = attempts.get(ip);
     const count = (fresh?.count || 0) + 1;
     attempts.set(ip, { count, windowStart: fresh?.windowStart || now, blockedUntil: count >= MAX_ATTEMPTS ? now + WINDOW_MS : 0 });

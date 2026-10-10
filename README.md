@@ -8,7 +8,7 @@ Tambahkan environment variables berikut di **Vercel → Project → Settings →
 
 - `BLOB_READ_WRITE_TOKEN`: token dari Vercel Blob Store.
 - `ADMIN_EMAIL`: alamat email admin.
-- `ADMIN_PASSWORD_HASH`: hash PBKDF2 password; **jangan** masukkan password mentah.
+- `ADMIN_PASSWORD`: password admin sebagai Vercel Secret (cara termudah), atau gunakan `ADMIN_PASSWORD_HASH` untuk hash PBKDF2.
 - `ADMIN_API_SECRET`: string acak panjang (minimal 32 karakter) untuk menandatangani sesi.
 
 Buat hash password di komputer sendiri (jangan jalankan di browser publik):
