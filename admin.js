@@ -12,7 +12,7 @@ const labels = { projects: 'proyek', skills: 'skill', certificates: 'sertifikat'
 const fieldSets = {
   projects: [['kategori_id', 'Kategori proyek', 'select', ['Website', 'Design', 'Video', 'Photography']], ['nama_proyek', 'Nama proyek', 'text'], ['slug', 'Slug URL', 'text'], ['deskripsi_singkat', 'Deskripsi singkat', 'textarea'], ['deskripsi_lengkap', 'Deskripsi lengkap', 'textarea'], ['thumbnail', 'Foto sampul proyek', 'file'], ['gallery', 'Galeri proyek (bisa beberapa foto)', 'files'], ['banner', 'Banner proyek', 'file'], ['teknologi', 'Teknologi (pisahkan dengan koma, opsional)', 'optional-text'], ['demo_url', 'Tautan demo (opsional)', 'optional-url'], ['github_url', 'Tautan GitHub (opsional)', 'optional-url'], ['tahun', 'Tahun', 'number'], ['durasi', 'Durasi', 'text'], ['status', 'Status', 'select', ['Draft', 'Proses', 'Selesai']], ['unggulan', 'Proyek unggulan', 'checkbox']],
   skills: [['nama', 'Nama skill', 'text'], ['ikon', 'Teks singkat bila tanpa foto', 'text'], ['gambar', 'Foto / ikon skill', 'file']],
-  certificates: [['nama_sertifikat', 'Nama sertifikat', 'text'], ['penerbit', 'Penerbit', 'text'], ['tahun', 'Tahun', 'number'], ['gambar', 'Gambar sertifikat', 'file'], ['tautan_sertifikat', 'Tautan sertifikat', 'url']],
+  certificates: [['nama_sertifikat', 'Nama sertifikat', 'text'], ['penerbit', 'Penerbit', 'text'], ['tahun', 'Tahun', 'number'], ['gambar', 'Gambar / PDF sertifikat', 'file'], ['tautan_sertifikat', 'Tautan sertifikat', 'url']],
   beyond: [['nama', 'Nama hobi', 'text'], ['deskripsi', 'Deskripsi singkat', 'textarea'], ['gambar', 'Foto sampul hobi', 'file'], ['gallery', 'Galeri hobi (bisa beberapa foto)', 'files']]
 };
 function fieldMarkup([key, label, type, options], item) {
@@ -23,7 +23,7 @@ function fieldMarkup([key, label, type, options], item) {
   if (type === 'optional-url') return `<label>${label}<input type="url" name="${key}" value="${escapeHtml(value)}" placeholder="https://..."><small>Biarkan kosong bila belum ada.</small></label>`;
   if (type === 'optional-text') return `<label>${label}<input type="text" name="${key}" value="${escapeHtml(value)}" placeholder="HTML, CSS, JavaScript"><small>Pisahkan beberapa teknologi dengan koma.</small></label>`;
   if (type === 'files') return `<label>${label}<input type="file" name="${key}" accept="image/jpeg,image/png,image/webp" multiple><small>Pilih foto sebanyak yang diperlukan. Foto baru akan ditambahkan ke galeri lalu diunggah ke server saat disimpan.</small></label><div class="gallery-admin-preview" id="gallery-preview"></div>`;
-  if (type === 'file') return `<label>${label}<input type="file" name="${key}" accept="image/jpeg,image/png,image/webp"><small>${value ? 'Gambar tersimpan — pilih file lain bila ingin mengganti.' : 'Format gambar JPG, PNG, atau WEBP.'}</small></label>`;
+  if (type === 'file') { const certificateFile = tab === 'certificates' && key === 'gambar'; return `<label>${label}<input type="file" name="${key}" accept="${certificateFile ? 'image/jpeg,image/png,image/webp,application/pdf' : 'image/jpeg,image/png,image/webp'}"><small>${value ? 'File tersimpan — pilih file lain bila ingin mengganti.' : certificateFile ? 'Format gambar JPG, PNG, WEBP, atau PDF (maks. 3 MB).' : 'Format gambar JPG, PNG, atau WEBP.'}</small></label>`; }
   return `<label>${label}<input type="${type}" name="${key}" value="${escapeHtml(value)}" required></label>`;
 }
 function renderGalleryPreview() { const preview = $('#gallery-preview'); if (!preview) return; galleryPendingUrls.forEach(URL.revokeObjectURL); galleryPendingUrls = galleryPendingFiles.map(file => URL.createObjectURL(file)); const saved = galleryDraft.map((source, index) => `<figure><img src="${source}" alt="Foto galeri ${index + 1}"><button type="button" data-remove-gallery="${index}" aria-label="Hapus foto ${index + 1}">×</button></figure>`).join(''); const pending = galleryPendingUrls.map((source, index) => `<figure class="gallery-pending"><img src="${source}" alt="Foto baru ${index + 1}"><button type="button" data-remove-pending="${index}" aria-label="Batalkan foto baru ${index + 1}">×</button></figure>`).join(''); preview.innerHTML = saved || pending ? saved + pending : '<p>Belum ada foto galeri.</p>'; preview.querySelectorAll('[data-remove-gallery]').forEach(button => button.onclick = () => { galleryDraft.splice(Number(button.dataset.removeGallery), 1); renderGalleryPreview(); }); preview.querySelectorAll('[data-remove-pending]').forEach(button => button.onclick = () => { galleryPendingFiles.splice(Number(button.dataset.removePending), 1); renderGalleryPreview(); }); }
@@ -62,6 +62,15 @@ async function readFileAsDataUrl(file, maxSize = 1600, quality = 0.88) {
     };
     img.onerror = () => { URL.revokeObjectURL(objectURL); reject(new Error('Gagal membaca gambar.')); };
     img.src = objectURL;
+  });
+}
+
+function readOriginalFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Gagal membaca file.'));
+    reader.readAsDataURL(file);
   });
 }
 
@@ -140,10 +149,15 @@ function initialiseApp() {
         if (form.elements[key]) {
           const file = form.elements[key].files[0];
           if (file) {
-            const dataUrl = await readFileAsDataUrl(file);
+            const isCertificatePdf = tab === 'certificates' && key === 'gambar' && file.type === 'application/pdf';
+            if (isCertificatePdf && file.size > 3 * 1024 * 1024) throw new Error('Ukuran PDF sertifikat maksimal 3 MB.');
+            if (isCertificatePdf) values.gambar_tipe = 'application/pdf';
+            else if (tab === 'certificates' && key === 'gambar') values.gambar_tipe = file.type;
+            const dataUrl = isCertificatePdf ? await readOriginalFileAsDataUrl(file) : await readFileAsDataUrl(file);
             values[key] = await uploadImage(dataUrl, file.name);
           } else {
             values[key] = current[key] || '';
+            if (tab === 'certificates') values.gambar_tipe = current.gambar_tipe || '';
           }
         }
       }
