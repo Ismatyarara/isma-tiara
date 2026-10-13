@@ -1,1 +1,53 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Projects — Isma Tiara</title><link rel="preconnect" href="https://fonts.bunny.net"><link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&family=fraunces:500,600,700" rel="stylesheet"><style>:root{--ink:#18214d;--muted:#68718c;--violet:#624cc8;--gold:#bc8b48;--line:#e7e9ef;--paper:#fcfcfb}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Figtree,sans-serif;background:var(--paper);color:var(--ink)}a{text-decoration:none;color:inherit}.nav,.wrap{max-width:1180px;margin:auto;padding-inline:24px}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.logo{width:106px;height:48px;object-fit:contain;object-position:left}.back,.filter{border:1px solid #dce0eb;background:#fff;border-radius:999px;padding:10px 15px;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer}.back:hover,.filter.active{background:var(--ink);color:#fff}.hero{padding:68px 0 34px;max-width:760px}.eyebrow{color:var(--gold);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:11px}.eyebrow:before{content:'— ';color:var(--violet)}h1{font:600 clamp(42px,7vw,76px)/.96 Fraunces,serif;letter-spacing:-.035em;margin:12px 0 18px}.intro{color:var(--muted);font-size:16px;line-height:1.75;max-width:620px}.tools{display:flex;gap:8px;flex-wrap:wrap;padding-bottom:28px}.search{min-width:230px;flex:1;border:1px solid #dce0eb;border-radius:999px;padding:10px 16px;font:inherit}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding-bottom:70px}.card{border:1px solid var(--line);background:#fff;border-radius:16px;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease;animation:in .45s both}.card:hover{transform:translateY(-4px);box-shadow:0 18px 35px -28px #111b46}.media{height:205px;background:#f0eff5;display:grid;place-items:center;color:#6c63a7;font:600 30px Fraunces,serif;overflow:hidden}.media img{width:100%;height:100%;object-fit:cover;transition:transform .4s}.card:hover .media img{transform:scale(1.04)}.body{padding:18px}.tag{color:var(--violet);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.body h2{font-size:19px;margin:8px 0}.body p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}.more{display:block;margin-top:14px;font-size:12px;font-weight:800;color:var(--violet)}.case{padding:48px 0 70px}.case-meta{color:var(--violet);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.case h1{max-width:830px}.case-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:50px;margin-top:35px}.case-image{width:100%;min-height:300px;max-height:560px;object-fit:contain;background:#f2f1f6;border-radius:16px}.placeholder{min-height:300px;display:grid;place-items:center;background:#f2f1f6;border-radius:16px;color:#7067a9;font:600 54px Fraunces,serif}.copy{color:var(--muted);line-height:1.75}.copy h2{color:var(--ink);font:600 27px Fraunces,serif}.facts{border-top:1px solid var(--line);padding-top:18px;display:grid;gap:13px}.facts b{display:block;color:var(--ink);font-size:12px}.facts span{color:var(--muted);font-size:13px}.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}.gallery button{padding:0;border:0;border-radius:10px;overflow:hidden;cursor:zoom-in;aspect-ratio:1;background:#f0eff5}.gallery img{width:100%;height:100%;object-fit:cover}.empty{padding:32px;color:var(--muted);grid-column:1/-1}@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}dialog{padding:0;border:0;background:#11152b;width:min(1000px,95vw)}dialog::backdrop{background:#11152bcc}.light{position:relative;padding:48px}.light img{display:block;max-height:75vh;max-width:100%;margin:auto}.x{position:absolute;right:10px;top:10px;border:0;border-radius:50%;width:35px;height:35px;background:#ffffff22;color:#fff;font-size:20px;cursor:pointer}@media(max-width:760px){.grid,.case-grid{grid-template-columns:1fr}.hero{padding-top:40px}.case-grid{gap:25px}.gallery{grid-template-columns:repeat(2,1fr)}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style></head><body><nav class="nav"><a href="index.html"><img class="logo" src="assets/images/logo-isma.jpeg" alt="Isma Tiara"></a><a class="back" href="index.html#projects">← Portfolio</a></nav><main class="wrap"><section id="browse" class="hero"><p class="eyebrow">Selected Projects</p><h1>Work that is clear, useful, and considered.</h1><p class="intro">Koleksi proyek web, desain, dan aplikasi. Pilih karya untuk membaca detail serta melihat galeri yang terkait dengan proyek tersebut.</p></section><div id="tools" class="tools"></div><section id="list" class="grid"></section><section id="detail" class="case" hidden></section></main><dialog id="light"><div class="light"><button class="x">×</button><img id="lightImage" alt=""></div></dialog><script src="data.js"></script><script>(async()=>{const data=await getData(),$=s=>document.querySelector(s),esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));const pics=p=>[p.thumbnail,...(p.gallery||[])].filter(Boolean),slug=v=>String(v||'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');const path=location.pathname.split('/').filter(Boolean);const wanted=new URLSearchParams(location.search).get('slug')||(path[0]==='projects'?path[1]:'');let active='All';function browse(){const cats=['All',...new Set(data.projects.map(x=>x.kategori_id).filter(Boolean))];$('#tools').innerHTML=`<input id="search" class="search" placeholder="Cari project…">`+cats.map(c=>`<button class="filter ${c===active?'active':''}" data-c="${esc(c)}">${esc(c)}</button>`).join('');const draw=()=>{const q=$('#search').value.toLowerCase();const rows=data.projects.filter(p=>(active==='All'||p.kategori_id===active)&&`${p.nama_proyek} ${p.deskripsi_singkat}`.toLowerCase().includes(q));$('#list').innerHTML=rows.map(p=>`<a class="card" href="/projects/${esc(p.slug||slug(p.nama_proyek))}"><div class="media">${pics(p)[0]?`<img loading="lazy" src="${pics(p)[0]}" alt="${esc(p.nama_proyek)}">`:esc((p.nama_proyek||'PR').slice(0,2))}</div><div class="body"><span class="tag">${esc(p.kategori_id)}</span><h2>${esc(p.nama_proyek)}</h2><p>${esc(p.deskripsi_singkat)}</p><span class="more">Read case study →</span></div></a>`).join('')||'<p class="empty">Tidak ada proyek yang cocok.</p>'};draw();$('#search').oninput=draw;$$=null;$('#tools').querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{active=b.dataset.c;browse()})}function detail(p){$('#browse').hidden=true;$('#tools').hidden=true;$('#list').hidden=true;const images=pics(p);$('#detail').hidden=false;$('#detail').innerHTML=`<a class="back" href="/projects.html">← Semua proyek</a><p class="case-meta">${esc(p.kategori_id)} ${p.tahun?'· '+esc(p.tahun):''}</p><h1>${esc(p.nama_proyek)}</h1><p class="intro">${esc(p.deskripsi_singkat)}</p><div class="case-grid"><div>${images[0]?`<img class="case-image" src="${images[0]}" alt="${esc(p.nama_proyek)}">`:`<div class="placeholder">${esc((p.nama_proyek||'PR').slice(0,2))}</div>`}<div class="gallery">${images.map((s,i)=>`<button data-i="${i}"><img loading="lazy" src="${s}" alt="${esc(p.nama_proyek)} foto ${i+1}"></button>`).join('')}</div></div><aside><div class="copy"><h2>About this project</h2><p>${esc(p.deskripsi_lengkap||p.deskripsi_singkat)}</p></div><div class="facts"><div><b>Category</b><span>${esc(p.kategori_id||'—')}</span></div><div><b>Year & status</b><span>${esc(p.tahun||'—')} · ${esc(p.status||'—')}</span></div><div><b>Duration</b><span>${esc(p.durasi||'—')}</span></div>${p.demo_url?`<a class="more" href="${esc(p.demo_url)}" target="_blank">Live demo ↗</a>`:''}${p.github_url?`<a class="more" href="${esc(p.github_url)}" target="_blank">GitHub ↗</a>`:''}</div></aside></div>`;$('#detail').querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{$('#lightImage').src=images[Number(b.dataset.i)];$('#light').showModal()})}const p=data.projects.find(x=>(x.slug||slug(x.nama_proyek))===wanted);p?detail(p):browse();$('.x').onclick=()=>$('#light').close();$('#light').onclick=e=>{if(e.target===$('#light'))$('#light').close()}})();</script></body></html>
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbfcff">
+  <title>Proyek — Isma Tiara Zalianti</title>
+  <link rel="icon" type="image/jpeg" href="/assets/images/logo-isma.jpeg">
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&family=fraunces:500,600,700" rel="stylesheet">
+  <link rel="stylesheet" href="/projects-page.css">
+</head>
+<body class="projects-page">
+  <header>
+    <nav class="project-nav" aria-label="Navigasi proyek">
+      <a class="project-logo" href="/index.html#home" aria-label="Beranda Isma Tiara">
+        <img src="/assets/images/logo-isma.jpeg" alt="Isma Tiara" data-logo>
+      </a>
+      <a class="project-back portfolio-return" href="/index.html#projects"><span aria-hidden="true">←</span> Portfolio</a>
+    </nav>
+  </header>
+
+  <main class="project-shell">
+    <section id="projectBrowse" class="project-hero">
+      <p class="project-eyebrow">Selected Projects</p>
+      <h1>Work that is clear, useful, and considered.</h1>
+      <p class="project-intro">Koleksi proyek web, desain, dan aplikasi. Pilih karya untuk membaca detail serta melihat galeri yang terkait dengan proyek tersebut.</p>
+    </section>
+    <div id="projectTools" class="project-tools"></div>
+    <section id="projectList" class="project-list" aria-label="Daftar proyek"></section>
+    <article id="projectDetail" class="project-detail" hidden></article>
+  </main>
+
+  <footer class="projects-footer"><span>Isma Tiara Zalianti © <span id="projectYear"></span></span></footer>
+
+  <dialog id="projectLightbox" aria-label="Pratinjau foto proyek">
+    <button id="lightboxClose" class="lightbox-close" type="button" aria-label="Tutup pratinjau">×</button>
+    <img id="lightboxImage" class="lightbox-image" alt="">
+  </dialog>
+
+  <script src="/data.js"></script>
+  <script src="/project-media.js"></script>
+  <script src="/projects.js"></script>
+  <script>
+    document.querySelectorAll('[data-logo]').forEach(image => image.addEventListener('error', () => {
+      const fallback = document.createElement('span');
+      fallback.className = 'project-logo-text';
+      fallback.textContent = 'Isma Tiara';
+      image.replaceWith(fallback);
+    }, { once: true }));
+  </script>
+</body>
+</html>
