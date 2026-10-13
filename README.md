@@ -6,7 +6,7 @@ Website statis HTML/CSS/JavaScript yang memakai **Vercel Serverless Functions + 
 
 Tambahkan environment variables berikut di **Vercel → Project → Settings → Environment Variables**, untuk Production dan Preview:
 
-- `BLOB_READ_WRITE_TOKEN`: token dari Vercel Blob Store.
+- `PORTFOLIO_READ_WRITE_TOKEN` (atau `BLOB_READ_WRITE_TOKEN`): token dari Vercel Blob Store.
 - `ADMIN_EMAIL`: alamat email admin.
 - `ADMIN_PASSWORD`: password admin sebagai Vercel Secret (cara termudah), atau gunakan `ADMIN_PASSWORD_HASH` untuk hash PBKDF2.
 - `ADMIN_API_SECRET`: string acak panjang (minimal 32 karakter) untuk menandatangani sesi.

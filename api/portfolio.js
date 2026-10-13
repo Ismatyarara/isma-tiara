@@ -4,9 +4,11 @@ const { put, list } = require('@vercel/blob');
 const { verifyToken } = require('./_auth');
 
 const DATA_PATH = 'data/portfolio.json';
+// The Vercel Blob store can use either its default token name or a custom prefix.
+const BLOB_TOKEN = process.env.PORTFOLIO_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
 
 async function readData() {
-    const { blobs } = await list({ prefix: DATA_PATH, limit: 1 });
+    const { blobs } = await list({ prefix: DATA_PATH, limit: 1, token: BLOB_TOKEN });
     if (!blobs.length) return null;
     const response = await fetch(blobs[0].url, { cache: 'no-store' });
     if (!response.ok) return null;
@@ -39,6 +41,7 @@ async function handler(req, res) {
                 contentType: 'application/json',
                 addRandomSuffix: false,
                 allowOverwrite: true,
+                token: BLOB_TOKEN,
             });
             return res.status(200).json({ ok: true });
         } catch (err) {
