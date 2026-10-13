@@ -3,6 +3,7 @@
 // Upload gambar ke Vercel Blob Storage (bukan localStorage), butuh login.
 const { put } = require('@vercel/blob');
 const { verifyToken } = require('./_auth');
+const BLOB_TOKEN = process.env.PORTFOLIO_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
 
 async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -31,6 +32,7 @@ async function handler(req, res) {
             access: 'public',
             contentType: contentType || 'image/jpeg',
             addRandomSuffix: false,
+            token: BLOB_TOKEN,
         });
 
         return res.status(200).json({ url: blob.url });
