@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.bunny.net">
   <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&family=fraunces:500,600,700" rel="stylesheet">
   <link rel="stylesheet" href="/projects-page.css">
+  <link rel="stylesheet" href="/portfolio-extras.css">
 </head>
 <body class="projects-page">
   <header>
@@ -16,7 +17,7 @@
       <a class="project-logo" href="/index.html#home" aria-label="Beranda Isma Tiara">
         <img src="/assets/images/logo-isma.jpeg" alt="Isma Tiara" data-logo>
       </a>
-      <a class="project-back portfolio-return" href="/index.html#projects"><span aria-hidden="true">←</span> Portfolio</a>
+      <div class="project-nav-actions"><button class="language-toggle" type="button" aria-label="Change language">ID / EN</button><a class="project-back portfolio-return" href="/index.html#projects"><span aria-hidden="true">←</span> Portfolio</a></div>
     </nav>
   </header>
 
@@ -41,6 +42,7 @@
   <script src="/data.js"></script>
   <script src="/project-media.js"></script>
   <script src="/projects.js"></script>
+  <script src="/page-language.js"></script>
   <script>
     document.querySelectorAll('[data-logo]').forEach(image => image.addEventListener('error', () => {
       const fallback = document.createElement('span');
