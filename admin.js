@@ -12,7 +12,7 @@ const labels = { projects: 'proyek', skills: 'skill', certificates: 'sertifikat'
 const fieldSets = {
   projects: [['kategori_id', 'Kategori proyek', 'select', ['Website', 'Design', 'Video', 'Photography']], ['nama_proyek', 'Nama proyek', 'text'], ['slug', 'Slug URL', 'text'], ['deskripsi_singkat', 'Deskripsi singkat', 'textarea'], ['deskripsi_lengkap', 'Deskripsi lengkap', 'textarea'], ['thumbnail', 'Foto sampul proyek', 'file'], ['gallery', 'Galeri proyek (bisa beberapa foto)', 'files'], ['banner', 'Banner proyek', 'file'], ['teknologi', 'Teknologi (pisahkan dengan koma, opsional)', 'optional-text'], ['demo_url', 'Tautan demo (opsional)', 'optional-url'], ['github_url', 'Tautan GitHub (opsional)', 'optional-url'], ['tahun', 'Tahun', 'number'], ['durasi', 'Durasi', 'text'], ['status', 'Status', 'select', ['Draft', 'Proses', 'Selesai']], ['unggulan', 'Proyek unggulan', 'checkbox']],
   skills: [['nama', 'Nama skill', 'text'], ['ikon', 'Teks singkat bila tanpa foto', 'text'], ['gambar', 'Foto / ikon skill', 'file']],
-  certificates: [['nama_sertifikat', 'Nama sertifikat', 'text'], ['penerbit', 'Penerbit', 'text'], ['tahun', 'Tahun', 'number'], ['gambar', 'Gambar / PDF sertifikat', 'file'], ['tautan_sertifikat', 'Tautan sertifikat', 'url']],
+  certificates: [['nama_sertifikat', 'Nama sertifikat', 'text'], ['penerbit', 'Penerbit', 'text'], ['tahun', 'Tahun', 'number'], ['gambar', 'Gambar / PDF sertifikat', 'file'], ['tautan_sertifikat', 'Tautan sertifikat (opsional)', 'optional-url']],
   beyond: [['nama', 'Nama hobi', 'text'], ['deskripsi', 'Deskripsi singkat', 'textarea'], ['gambar', 'Foto sampul hobi', 'file'], ['gallery', 'Galeri hobi (bisa beberapa foto)', 'files']]
 };
 function fieldMarkup([key, label, type, options], item) {
