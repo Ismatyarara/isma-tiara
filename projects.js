@@ -120,6 +120,12 @@
       lightbox.showModal();
     }));
     window.observePortfolioReveals?.(detail.querySelectorAll('.project-back, .detail-meta, .detail-title, .detail-lead, .case-cover, .case-section, .gallery-item, .gallery-item img, .case-sidebar, .case-navigation'));
+    // Keep uploaded gallery media visible even if scroll-reveal observation is unavailable or delayed.
+    const gallery = detail.querySelector('.detail-gallery');
+    if (gallery) {
+      gallery.classList.add('is-visible');
+      gallery.querySelectorAll('.gallery-item, .gallery-image').forEach(image => image.classList.add('is-visible'));
+    }
   }
 
   $('#projectYear').textContent = new Date().getFullYear();
