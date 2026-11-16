@@ -8,3 +8,45 @@
 @media(max-width:600px){body .hero .hero-art{min-height:430px}.hero-art .float.three{left:-3%;top:49%;max-width:104px;min-height:0;padding:8px 9px;font-size:9px}.hero-art .float.five{left:auto;right:-2%;bottom:-4%;top:auto;max-width:96px;min-height:0;padding:8px 9px;font-size:9px;transform:none;translate:0 0}}
 
 @media(prefers-reduced-motion:reduce){.contact-link,.contact-arrow,.skills-all-link{transition:none!important}}
+/* Final hero badge layout: keep labels compact and separated from the portrait. */
+#home .hero-art>.float{display:inline-flex;flex-direction:column;align-items:flex-start;justify-content:center;width:max-content;height:auto!important;min-height:0!important;max-width:140px;line-height:1.2;white-space:normal}
+#home .hero-art>.float.one{left:0;right:auto;top:7%;bottom:auto}
+#home .hero-art>.float.two{left:auto;right:0;top:21%;bottom:auto}
+#home .hero-art>.float.three{left:-2%;right:auto;top:52%;bottom:auto;max-width:118px}
+#home .hero-art>.float.four{left:auto;right:-1%;top:64%;bottom:auto}
+#home .hero-art>.float.five{left:auto;right:5%;top:auto;bottom:1%;max-width:110px}
+@media(max-width:940px){#home .hero-art{width:100%;max-width:560px;min-height:460px;margin-inline:auto;overflow:visible}#home .hero-art .hero-blob{width:min(310px,78vw);height:min(310px,78vw)}#home .hero-art .hero-portrait{width:min(250px,64vw);height:310px}#home .hero-art>.float.one{left:0;top:2%}#home .hero-art>.float.two{right:0;top:15%}#home .hero-art>.float.three{left:0;top:49%;max-width:112px}#home .hero-art>.float.four{right:0;top:63%;bottom:auto}#home .hero-art>.float.five{left:auto;right:0;top:auto;bottom:0;max-width:104px}}
+@media(max-width:600px){#home .hero-art{min-height:450px}#home .hero-art .hero-blob{width:min(290px,76vw);height:min(290px,76vw)}#home .hero-art .hero-portrait{width:min(235px,62vw);height:300px}#home .hero-art>.float{max-width:106px;padding:8px 10px;font-size:9px}#home .hero-art>.float.one{left:0;top:1%}#home .hero-art>.float.two{right:0;top:14%}#home .hero-art>.float.three{left:0;top:48%;max-width:104px}#home .hero-art>.float.four{right:0;top:62%;bottom:auto;max-width:94px}#home .hero-art>.float.five{right:0;left:auto;bottom:0;top:auto;max-width:96px}}
+
+@media(max-width:940px){#home .hero-art>.float.three{left:0;right:auto;top:auto;bottom:0;max-width:112px}#home .hero-art>.float.five{left:auto;right:0;top:auto;bottom:0;max-width:104px}}@media(max-width:600px){#home .hero-art>.float.three{left:0;right:auto;top:auto;bottom:0;max-width:104px}#home .hero-art>.float.five{left:auto;right:0;top:auto;bottom:0;max-width:96px}}
+
+/* Aksen lembut pada beranda, seirama dengan halaman login. */
+#home .hero-art{isolation:isolate}
+.hero-decor{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:visible}
+.hero-orbit{position:absolute;left:50%;top:50%;width:450px;height:450px;border:1px solid #8c72d52b;border-radius:50%;transform:translate(-50%,-50%) rotate(-14deg) scaleX(.79)}
+.hero-orbit:before{content:"";position:absolute;inset:18px;border:1px dashed #d99bc33d;border-radius:50%}
+.hero-spark{position:absolute;color:#e6a94a;font-style:normal;font-size:23px;animation:decor-twinkle 3.2s ease-in-out infinite alternate}
+.hero-spark.spark-one{right:10%;top:15%}.hero-spark.spark-two{left:9%;bottom:22%;color:#a584de;font-size:19px;animation-delay:.8s}
+.hero-orb{position:absolute;width:36px;height:36px;border-radius:50%;background:linear-gradient(145deg,#ead8ff,#b8c8ff);box-shadow:0 8px 22px #8c72d530;animation:decor-float 4s ease-in-out infinite alternate}
+.hero-orb.orb-one{right:14%;bottom:19%}.hero-orb.orb-two{left:18%;top:17%;width:20px;height:20px;background:linear-gradient(145deg,#ffe2c3,#f4b5d5);animation-delay:1s}
+@keyframes decor-float{to{transform:translateY(-9px)}}@keyframes decor-twinkle{from{opacity:.55;transform:scale(.9) rotate(-8deg)}to{opacity:1;transform:scale(1.08) rotate(8deg)}}
+.stats-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding-top:4px;padding-bottom:12px}
+.stat-card{min-height:98px;display:grid;place-content:center;gap:4px;text-align:center;border:1px solid #e7e1f5;border-radius:21px;background:#ffffffd9;box-shadow:0 10px 26px #4931740c;transition:transform .22s,box-shadow .22s}
+.stat-card:hover{transform:translateY(-3px);box-shadow:0 16px 32px #49317416}.stat-card strong{color:#45227b;font-size:28px;line-height:1}.stat-label{color:#77728c;font-size:13px;font-weight:700}
+.contact-v2{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;margin-top:54px;margin-bottom:34px;align-items:stretch}
+.contact-v2-message,.contact-v2-card{position:relative;overflow:hidden;border:1px solid #e9e2f5;border-radius:28px;box-shadow:0 18px 42px #3e2b7010}
+.contact-v2-message{display:flex;flex-direction:column;justify-content:center;min-height:355px;padding:clamp(30px,5vw,58px);background:linear-gradient(140deg,#5928a9,#301363 72%,#221147);color:#fff}
+.contact-v2-message:after{content:"";position:absolute;width:240px;height:240px;right:-105px;top:-125px;border:1px solid #ffffff2f;border-radius:50%;box-shadow:0 0 0 18px #ffffff0b,0 0 0 40px #ffffff08;pointer-events:none}
+.contact-v2-eyebrow{display:flex;align-items:center;gap:10px;margin:0 0 16px;color:#c6a0ff;font-size:12px;font-weight:900;letter-spacing:.12em}
+.contact-v2-card .contact-v2-eyebrow{color:#b17b37}.contact-v2-eyebrow:before{content:"";width:22px;height:2px;background:currentColor}
+.contact-v2-message h2{max-width:480px;margin:0;color:#fff;font:600 clamp(30px,4vw,42px)/1.15 Fraunces,Georgia,serif;letter-spacing:-.02em}
+.contact-v2-message>p:not(.contact-v2-eyebrow){max-width:470px;margin:13px 0 23px;color:#e6dcf5;font-size:14px;line-height:1.65}
+.contact-v2-actions{display:flex;flex-wrap:wrap;gap:11px}.contact-action{min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:12px;padding:0 19px;border:1px solid #ffffff48;border-radius:999px;color:#fff;font-size:13px;font-weight:800;transition:transform .2s,background .2s,box-shadow .2s}.contact-action:hover{transform:translateY(-3px);background:#ffffff22;box-shadow:0 10px 22px #180c3540}.contact-action-whatsapp{border-color:transparent;background:#6b36c5}.contact-action-whatsapp:hover{background:#7a43d8}
+.contact-v2-card{min-height:355px;padding:clamp(24px,3.2vw,40px);background:#ffffffec}.contact-v2-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}
+.contact-social-link{min-width:0;min-height:66px;display:flex;align-items:center;gap:12px;padding:10px 13px;border:1px solid #e5def3;border-radius:18px;background:#fff;color:#26213e;transition:transform .2s,border-color .2s,box-shadow .2s}
+.contact-social-link:hover{transform:translateY(-3px);border-color:#cbb9ec;box-shadow:0 10px 22px #49317412}.contact-social-icon{flex:0 0 38px;width:38px;height:38px;display:grid;place-items:center;border-radius:13px;background:#f4f0fc;color:#6736c2;font-size:18px}.contact-social-link strong{font-size:13px}.contact-cv-link{display:inline-flex;align-items:center;gap:8px;margin-top:17px;color:#6443b4;font-size:12px;font-weight:800}.contact-cv-link span{transition:transform .2s}.contact-cv-link:hover span{transform:translateY(3px)}
+.motion-ready .stat-card,.motion-ready .contact-v2-message,.motion-ready .contact-v2-card{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.25,1)}
+.motion-ready .stat-card.is-visible,.motion-ready .contact-v2-message.is-visible,.motion-ready .contact-v2-card.is-visible{opacity:1;transform:translateY(0)}
+@media(max-width:940px){.contact-v2{grid-template-columns:1fr;max-width:760px}.hero-orbit{width:390px;height:390px}}
+@media(max-width:600px){.stats-strip{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.stat-card{min-height:82px;border-radius:16px}.stat-card strong{font-size:23px}.stat-label{font-size:10px}.contact-v2{gap:14px;margin-top:38px;margin-bottom:26px}.contact-v2-message{min-height:300px;padding:26px 23px;border-radius:23px}.contact-v2-card{min-height:0;padding:23px 18px;border-radius:23px}.contact-v2-grid{gap:9px}.contact-social-link{min-height:61px;padding:8px 9px;gap:8px;border-radius:15px}.contact-social-icon{flex-basis:33px;width:33px;height:33px}.contact-social-link strong{font-size:11px}.hero-orbit{width:min(360px,100vw);height:min(360px,100vw)}}
+@media(prefers-reduced-motion:reduce){.hero-orb,.hero-spark{animation:none!important}.stat-card,.contact-action,.contact-social-link,.contact-cv-link span{transition:none!important}}

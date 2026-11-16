@@ -1,6 +1,6 @@
 (() => {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const targets = document.querySelectorAll('.section:not(.hero), .skill-group, .cert, .hobby-card');
+  const targets = document.querySelectorAll('.section:not(.hero), .skill-group, .cert, .hobby-card, .stat-card, .contact-v2-message, .contact-v2-card');
   if (reduced || !('IntersectionObserver' in window)) return;
   document.body.classList.add('motion-ready');
   targets.forEach(target => target.classList.add('motion-reveal'));

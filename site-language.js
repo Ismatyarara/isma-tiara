@@ -18,8 +18,8 @@
       '#hobbies .kicker': 'Hobbies', '#hobbies .section-title': 'Things I Enjoy', '#hobbies .section-copy': 'Small stories behind the things that keep me inspired.',
       '#certificates>div>div:first-child .kicker': 'Certificates', '#certificates>div>div:first-child .section-title': 'Certificates I have earned.',
       '#certificates>div>div:first-child>p>a': 'View certificate gallery →', '#certificates>div>div:last-child .section-title': 'Things I enjoy.',
-      '#contact>div>h2': 'Let’s create something meaningful.', '#contact>div>p:not(.kicker)': 'Have a project or an idea, or just want to say hello? I would love to hear from you.',
-      '#contact .actions .pill': 'Get In Touch →', '.maps-link': '📍 View on Google Maps ↗', '.cv-link': 'Download CV ↓', '.contact-link:nth-child(1) small': 'Phone', '.contact-link:nth-child(2) small': 'Email', '.contact-link:nth-child(3) small': 'GitHub', '.contact-link:nth-child(4) small': 'Live portfolio',
+      '#contact .contact-v2-message h2': 'Let’s create something meaningful.', '#contact .contact-v2-message>p:not(.contact-v2-eyebrow)': 'Have a project or an idea, or just want to say hello? I would love to hear from you.', '#contact .contact-v2-message .contact-v2-eyebrow': 'LET’S WORK TOGETHER', '#contact .contact-v2-card .contact-v2-eyebrow': 'GET IN TOUCH',
+      '#contact .contact-v2-actions .contact-action-whatsapp span': 'Let’s Talk', '#contact .contact-v2-actions .contact-action-email span': 'Send Email', '.contact-cv-link': 'Download Latest CV ↓', '.cv-link': 'Download CV ↓',
     },
     id: {
       '.hero>div>.hello': 'Halo, saya ✨',
@@ -33,8 +33,8 @@
       '#hobbies .kicker': 'Hobi', '#hobbies .section-title': 'Hal-hal yang Saya Sukai', '#hobbies .section-copy': 'Cerita kecil di balik hal yang selalu memberi saya inspirasi.',
       '#certificates>div>div:first-child .kicker': 'Sertifikat', '#certificates>div>div:first-child .section-title': 'Sertifikat yang saya raih.',
       '#certificates>div>div:first-child>p>a': 'Lihat galeri sertifikat →', '#certificates>div>div:last-child .section-title': 'Hal yang saya sukai.',
-      '#contact>div>h2': 'Mari buat sesuatu yang bermakna.', '#contact>div>p:not(.kicker)': 'Jika kamu memiliki proyek, ide, atau ingin berkenalan, jangan ragu untuk menghubungi saya.',
-      '#contact .actions .pill': 'Hubungi Saya →', '.maps-link': '📍 Lihat di Google Maps ↗', '.cv-link': 'Unduh CV ↓', '.contact-link:nth-child(1) small': 'Telepon', '.contact-link:nth-child(2) small': 'Email', '.contact-link:nth-child(3) small': 'GitHub', '.contact-link:nth-child(4) small': 'Portfolio live',
+      '#contact .contact-v2-message h2': 'Mari buat sesuatu yang bermakna.', '#contact .contact-v2-message>p:not(.contact-v2-eyebrow)': 'Jika kamu memiliki proyek, ide, atau ingin berkenalan, jangan ragu untuk menghubungi saya.', '#contact .contact-v2-message .contact-v2-eyebrow': 'AYO KERJA BERSAMA', '#contact .contact-v2-card .contact-v2-eyebrow': 'HUBUNGI SAYA',
+      '#contact .contact-v2-actions .contact-action-whatsapp span': 'Ayo Ngobrol', '#contact .contact-v2-actions .contact-action-email span': 'Kirim Email', '.contact-cv-link': 'Unduh CV Terbaru ↓', '.cv-link': 'Unduh CV ↓',
     },
   };
   let language = localStorage.getItem('isma-portfolio-language') === 'en' ? 'en' : 'id';
