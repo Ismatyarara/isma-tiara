@@ -14,6 +14,7 @@
       const original = element.dataset.languageOriginal.trim();
       element.textContent = copy[original] || original;
     });
+    document.querySelectorAll('[data-language-id][data-language-en]').forEach(element => { element.textContent = language === 'id' ? element.dataset.languageId : element.dataset.languageEn; });
     localStorage.setItem('isma-portfolio-language', language);
   };
   toggle.addEventListener('click', () => { language = language === 'id' ? 'en' : 'id'; apply(); });

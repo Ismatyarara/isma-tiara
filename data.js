@@ -50,23 +50,26 @@ function cloneData(value) {
 // Ambil data dari backend (Vercel Blob, lewat /api/portfolio).
 // Kalau belum pernah disimpan sama sekali (baru pertama deploy) atau request gagal
 // (misal offline), pakai defaultData supaya halaman tetap tampil.
+window.portfolioDataReady = false;
 async function getData() {
+  let data;
   try {
     const response = await fetch('/api/portfolio', { cache: 'no-store' });
     if (!response.ok) throw new Error('Gagal mengambil data dari server.');
     const saved = await response.json();
-    if (!saved) return cloneData(defaultData);
-    return {
+    data = !saved ? cloneData(defaultData) : {
       ...cloneData(defaultData),
       ...saved,
       beyond: saved.beyond || cloneData(defaultData.beyond),
     };
   } catch (err) {
     console.error('getData() gagal, pakai data default:', err);
-    return cloneData(defaultData);
+    data = cloneData(defaultData);
   }
+  window.portfolioDataReady = true;
+  window.dispatchEvent(new Event('portfolio:data-ready'));
+  return data;
 }
-
 // Simpan seluruh data ke backend. Butuh token admin yang valid (lihat admin.js).
 // Melempar error kalau gagal, supaya pemanggil bisa menampilkan pesan ke user.
 async function saveData(data, token) {
