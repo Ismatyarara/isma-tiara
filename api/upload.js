@@ -1,13 +1,45 @@
 // POST /api/upload
 // Body: { filename, contentType, dataBase64 }
 // Upload gambar dan dokumen sertifikat ke Vercel Blob Storage, butuh login.
-const { put } = require('@vercel/blob');
+const { put, del, list } = require('@vercel/blob');
 const { verifyToken } = require('./_auth');
 const BLOB_TOKEN = process.env.PORTFOLIO_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
 
 async function handler(req, res) {
+    if (req.method === 'DELETE') {
+        if (!verifyToken(req)) return res.status(401).json({ error: 'Unauthorized. Silakan login ulang.' });
+        const source = String(req.body?.url || '');
+        let parsed;
+        try { parsed = new URL(source); } catch { return res.status(400).json({ error: 'URL foto tidak valid.' }); }
+
+        // Only allow deleting image blobs created by this portfolio's upload flow.
+        if (!/^[a-z0-9-]+\.public\.blob\.vercel-storage\.com$/i.test(parsed.hostname) || !parsed.pathname.startsWith('/images/')) {
+            return res.status(200).json({ deleted: false, reason: 'not-managed' });
+        }
+
+        try {
+            const { blobs } = await list({ prefix: 'data/portfolio.json', limit: 1, token: BLOB_TOKEN });
+            if (blobs.length) {
+                const response = await fetch(blobs[0].url, { cache: 'no-store' });
+                if (!response.ok) throw new Error('Tidak dapat memeriksa referensi gambar di portfolio.');
+                const data = await response.json();
+                const isReferenced = value => {
+                    if (value === source) return true;
+                    if (Array.isArray(value)) return value.some(isReferenced);
+                    if (value && typeof value === 'object') return Object.values(value).some(isReferenced);
+                    return false;
+                };
+                if (isReferenced(data)) return res.status(409).json({ deleted: false, reason: 'in-use', error: 'Foto masih digunakan oleh konten lain.' });
+            }
+            await del(source, { token: BLOB_TOKEN });
+            return res.status(200).json({ deleted: true });
+        } catch (err) {
+            return res.status(500).json({ error: err.message || 'Gagal menghapus foto dari penyimpanan.' });
+        }
+    }
+
     if (req.method !== 'POST') {
-        res.setHeader('Allow', 'POST');
+        res.setHeader('Allow', 'POST, DELETE');
         return res.status(405).json({ error: 'Method tidak diizinkan.' });
     }
 

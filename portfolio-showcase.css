@@ -129,11 +129,19 @@
 #projects .project-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px;align-items:stretch}
 #projects .project-link{display:grid;grid-template-rows:auto 1fr;min-width:0;overflow:hidden;border:1px solid #e9e4f4;border-radius:25px;background:#fff;box-shadow:0 14px 38px #4232760c;transition:transform .3s cubic-bezier(.2,.7,.25,1),border-color .3s,box-shadow .3s}
 #projects .project-link:hover,#projects .project-link:focus-visible{transform:translateY(-6px);border-color:#d6c8ee;box-shadow:0 24px 48px #42327618}
-#projects .project-editorial-media{position:relative;aspect-ratio:1.53;height:auto;min-height:0;background:#f0edf8}
-#projects .project-editorial-media>.project-image{width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .65s cubic-bezier(.2,.7,.25,1)}
-#projects .project-link:hover .project-editorial-media>.project-image{transform:scale(1.035)}
-#projects .project-media-empty{display:grid;width:100%;height:100%;min-height:240px;place-items:center;background:#f7f5fa;color:#8a8499;font-size:12px;font-weight:700;text-align:center}
-#projects .project-media-empty span{padding:12px}
+#projects .project-editorial-media{position:relative;display:grid;min-width:0;min-height:0;aspect-ratio:1.53;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#fff 0,#f6f3fc 64%,#efebf8 100%)}
+#projects .project-laptop-stage{display:grid;width:100%;height:100%;place-items:center;padding:clamp(20px,4vw,43px)}
+#projects .project-laptop{position:relative;width:min(100%,590px);filter:drop-shadow(0 18px 18px #30234d24);transition:transform .5s cubic-bezier(.2,.7,.25,1),filter .5s}
+#projects .project-laptop-screen{position:relative;aspect-ratio:16/10;overflow:hidden;border:clamp(5px,.85vw,9px) solid #252538;border-bottom-width:clamp(9px,1.3vw,14px);border-radius:12px 12px 7px 7px;background:#edeaf3}
+#projects .project-laptop-screen:after{position:absolute;inset:0;border:1px solid #ffffff2a;border-radius:5px;content:"";pointer-events:none}
+#projects .project-laptop-screen>.project-image{display:block;width:100%;height:100%;object-fit:contain;background:#fff;transition:transform .7s cubic-bezier(.2,.7,.25,1)}
+#projects .project-laptop-camera{position:absolute;top:5px;left:50%;width:3px;height:3px;border-radius:50%;background:#626274;transform:translateX(-50%)}
+#projects .project-laptop:after{position:absolute;right:-5%;bottom:-11px;left:-5%;height:12px;border-radius:0 0 55% 55%;background:linear-gradient(#c9cbd4,#777986 58%,#e0e1e6);box-shadow:0 5px 8px #30234d20;content:""}
+#projects .project-laptop:before{position:absolute;z-index:1;bottom:-9px;left:50%;width:16%;height:3px;border-radius:0 0 6px 6px;background:#858792;content:"";transform:translateX(-50%)}
+#projects .project-link:hover .project-laptop,#projects .project-link:focus-visible .project-laptop{transform:translateY(-4px);filter:drop-shadow(0 24px 22px #30234d30)}
+#projects .project-link:hover .project-laptop-screen>.project-image{transform:scale(1.025)}
+#projects .project-laptop-empty .project-laptop-screen{display:grid;place-items:center;background:#f7f5fa;color:#8a8499;font-size:12px;font-weight:700;text-align:center}
+#projects .project-laptop-empty .project-laptop-screen span{padding:12px}
 #projects .project-image-count{position:absolute;right:15px;bottom:15px;display:flex;align-items:center;gap:9px;padding:9px 12px;border:1px solid #ffffff91;border-radius:999px;background:#ffffffdf;color:#373050;font-size:10px;font-weight:800;backdrop-filter:blur(8px)}
 #projects .project-image-count i{color:#6848be;font-size:13px;font-style:normal}
 #projects .project-body{min-height:0;display:flex;flex-direction:column;align-items:flex-start;padding:20px 23px 22px}
@@ -154,8 +162,8 @@
 #projects .project-link:only-child .project-body>p,#projects .project-link:nth-child(3):last-child .project-body>p{font-size:14px;line-height:1.75;-webkit-line-clamp:3}
 #projects .project-media .project-placeholder{display:grid;width:100%;height:100%;min-height:240px;place-items:center;background:#f7f5fa;color:#8a8499;font-size:12px;font-weight:700;letter-spacing:0}
 #projects .project-media .project-placeholder:after{content:"Project image unavailable"}
-@media(max-width:700px){#projects .project-grid{grid-template-columns:1fr;gap:17px}#projects .project-link:only-child,#projects .project-link:nth-child(3):last-child{grid-column:auto;grid-template-columns:1fr;grid-template-rows:auto 1fr}#projects .project-link:only-child .project-editorial-media,#projects .project-link:nth-child(3):last-child .project-editorial-media{min-height:0;aspect-ratio:1.35}#projects .project-link:only-child .project-body,#projects .project-link:nth-child(3):last-child .project-body{padding:18px 19px 20px}#projects .project-link:only-child .project-body h3,#projects .project-link:nth-child(3):last-child .project-body h3{font-size:25px}#projects .project-body{padding:17px 18px 19px}#projects .project-editorial-media{aspect-ratio:1.42}}
-@media(prefers-reduced-motion:reduce){#projects .project-link,#projects .project-editorial-media>.project-image,#projects .project-more i{transition:none!important}}
+@media(max-width:700px){#projects .project-grid{grid-template-columns:1fr;gap:17px}#projects .project-link:only-child,#projects .project-link:nth-child(3):last-child{grid-column:auto;grid-template-columns:1fr;grid-template-rows:auto 1fr}#projects .project-link:only-child .project-editorial-media,#projects .project-link:nth-child(3):last-child .project-editorial-media{min-height:0;aspect-ratio:1.35}#projects .project-link:only-child .project-body,#projects .project-link:nth-child(3):last-child .project-body{padding:18px 19px 20px}#projects .project-link:only-child .project-body h3,#projects .project-link:nth-child(3):last-child .project-body h3{font-size:25px}#projects .project-body{padding:17px 18px 19px}#projects .project-editorial-media{aspect-ratio:1.42}#projects .project-laptop-stage{padding:20px}}
+@media(prefers-reduced-motion:reduce){#projects .project-link,#projects .project-laptop,#projects .project-laptop-screen>.project-image,#projects .project-more i{transition:none!important}}
 
 #projects{position:relative;isolation:isolate}
 #projects:before,#projects:after{content:"";position:absolute;z-index:0;pointer-events:none;border-radius:50%;will-change:transform;transition:transform .18s linear}
