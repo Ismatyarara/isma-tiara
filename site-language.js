@@ -2,8 +2,8 @@
   const button = document.querySelector('.language-toggle');
   if (!button) return;
   const labels = {
-    en: ['Home', 'About', 'Experience', 'Projects', 'Education', 'Skills', 'Certificates', 'Hobbies'],
-    id: ['Beranda', 'Tentang', 'Pengalaman', 'Proyek', 'Pendidikan', 'Keahlian', 'Sertifikat', 'Hobi'],
+    en: ['Home', 'About', 'Experience', 'Projects', 'Education', 'Skills', 'Certificates', 'Hobbies', 'Location'],
+    id: ['Beranda', 'Tentang', 'Pengalaman', 'Proyek', 'Pendidikan', 'Keahlian', 'Sertifikat', 'Hobi', 'Lokasi'],
   };
   const translations = {
     en: {
@@ -14,11 +14,12 @@
       '#about .about-copy .kicker': '✦ About Me', '#about .about-copy .section-title': 'I work with empathy, care, and purpose.',
       '#about .about-copy .section-copy': 'A Software Engineering graduate from SMK Assalaam Bandung with experience in administration and data management, technical support, school organizations, and small business operations.',
       '#projects .kicker': 'Featured Projects', '#projects .section-title': 'Selected work.', '#projects>.projects-head>.pill': 'View All Projects →',
-      '#skills .kicker': 'Skills', '#skills .section-title': 'Tools and skills.', '#skills .section-copy': 'Skills I use to support each project.',
+      '#skills .kicker': 'Skills', '#skills .section-title': 'Tools and skills.', '#skills .section-copy': 'Skills I use to support each project.', '.skills-all-link': 'View All Skills →',
+      '#hobbies .kicker': 'Hobbies', '#hobbies .section-title': 'Things I Enjoy', '#hobbies .section-copy': 'Small stories behind the things that keep me inspired.',
       '#certificates>div>div:first-child .kicker': 'Certificates', '#certificates>div>div:first-child .section-title': 'Certificates I have earned.',
       '#certificates>div>div:first-child>p>a': 'View certificate gallery →', '#certificates>div>div:last-child .section-title': 'Things I enjoy.',
       '#contact>div>h2': 'Let’s create something meaningful.', '#contact>div>p:not(.kicker)': 'Have a project or an idea, or just want to say hello? I would love to hear from you.',
-      '#contact .actions .pill': 'Get In Touch →', '.maps-link': '📍 View on Google Maps ↗', '.cv-link': 'Download CV ↓',
+      '#contact .actions .pill': 'Get In Touch →', '.maps-link': '📍 View on Google Maps ↗', '.cv-link': 'Download CV ↓', '.contact-link:nth-child(1) small': 'Phone', '.contact-link:nth-child(2) small': 'Email', '.contact-link:nth-child(3) small': 'GitHub', '.contact-link:nth-child(4) small': 'Live portfolio',
     },
     id: {
       '.hero>div>.hello': 'Halo, saya ✨',
@@ -28,11 +29,12 @@
       '#about .about-copy .kicker': '✦ Tentang Saya', '#about .about-copy .section-title': 'Saya bekerja dengan empati, teliti, dan penuh tujuan.',
       '#about .about-copy .section-copy': 'Lulusan Rekayasa Perangkat Lunak SMK Assalaam Bandung dengan pengalaman administrasi dan pengelolaan data, dukungan teknis, organisasi sekolah, serta usaha kecil.',
       '#projects .kicker': 'Proyek Pilihan', '#projects .section-title': 'Karya yang saya kerjakan.', '#projects>.projects-head>.pill': 'Lihat Semua Proyek →',
-      '#skills .kicker': 'Keahlian', '#skills .section-title': 'Tools dan kemampuan saya.', '#skills .section-copy': 'Kemampuan yang saya gunakan untuk mendukung setiap proyek.',
+      '#skills .kicker': 'Keahlian', '#skills .section-title': 'Tools dan kemampuan saya.', '#skills .section-copy': 'Kemampuan yang saya gunakan untuk mendukung setiap proyek.', '.skills-all-link': 'Lihat Semua Skill →',
+      '#hobbies .kicker': 'Hobi', '#hobbies .section-title': 'Hal-hal yang Saya Sukai', '#hobbies .section-copy': 'Cerita kecil di balik hal yang selalu memberi saya inspirasi.',
       '#certificates>div>div:first-child .kicker': 'Sertifikat', '#certificates>div>div:first-child .section-title': 'Sertifikat yang saya raih.',
       '#certificates>div>div:first-child>p>a': 'Lihat galeri sertifikat →', '#certificates>div>div:last-child .section-title': 'Hal yang saya sukai.',
       '#contact>div>h2': 'Mari buat sesuatu yang bermakna.', '#contact>div>p:not(.kicker)': 'Jika kamu memiliki proyek, ide, atau ingin berkenalan, jangan ragu untuk menghubungi saya.',
-      '#contact .actions .pill': 'Hubungi Saya →', '.maps-link': '📍 Lihat di Google Maps ↗', '.cv-link': 'Unduh CV ↓',
+      '#contact .actions .pill': 'Hubungi Saya →', '.maps-link': '📍 Lihat di Google Maps ↗', '.cv-link': 'Unduh CV ↓', '.contact-link:nth-child(1) small': 'Telepon', '.contact-link:nth-child(2) small': 'Email', '.contact-link:nth-child(3) small': 'GitHub', '.contact-link:nth-child(4) small': 'Portfolio live',
     },
   };
   let language = localStorage.getItem('isma-portfolio-language') === 'en' ? 'en' : 'id';
