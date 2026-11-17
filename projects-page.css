@@ -73,8 +73,8 @@
 .projects-page .project-list-card{display:grid;grid-template-rows:auto 1fr;overflow:hidden;border:1px solid #e9e4f4;border-radius:24px;background:#fff;box-shadow:0 14px 38px #4232760c;animation:none;transition:transform .3s cubic-bezier(.2,.7,.25,1),box-shadow .3s,border-color .3s}
 .projects-page .project-list-card:hover,.projects-page .project-list-card:focus-visible{transform:translateY(-5px);border-color:#d6c8ee;box-shadow:0 23px 45px #42327618}
 .projects-page .project-list-media{position:relative;aspect-ratio:1.52;background:#f0edf8}
-.projects-page .project-list-media>img{object-fit:cover;transition:transform .65s cubic-bezier(.2,.7,.25,1)}
-.projects-page .project-list-card:hover .project-list-media>img{transform:scale(1.035)}
+.projects-page .project-list-media>img{object-fit:contain;object-position:center;background:#f0edf8;transition:transform .65s cubic-bezier(.2,.7,.25,1)}
+.projects-page .project-list-card:hover .project-list-media>img{transform:none}
 .projects-page .project-list-body{min-height:0;display:flex;flex-direction:column;align-items:flex-start;padding:20px 23px 22px}
 .projects-page .project-list-body h2{margin:10px 0 7px;color:#26234f;font:600 clamp(20px,2vw,25px)/1.2 Fraunces,Georgia,serif}
 .projects-page .project-list-body>p{display:-webkit-box;overflow:hidden;min-height:0;max-width:58ch;margin:0;color:#737087;font-size:12px;line-height:1.65;-webkit-box-orient:vertical;-webkit-line-clamp:3}
