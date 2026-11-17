@@ -58,13 +58,24 @@
     return `<img class="${className || ''}" src="${escapeHtml(url)}" alt="${escapeHtml(alt)}" loading="lazy" decoding="async" data-project-image data-fallback="${escapeHtml(fallback)}">`;
   }
 
+  function discardGalleryImage(image) {
+    const source = image.dataset.gallerySource || image.currentSrc || image.src;
+    image.dispatchEvent(new CustomEvent('portfolio:gallery-image-error', { bubbles: true, detail: { source } }));
+    image.closest('[data-gallery-image-item]')?.remove();
+  }
+
+  // A broken upload can still return HTTP 200. Ignore effectively empty 1px assets too.
+  document.addEventListener('load', event => {
+    const image = event.target;
+    if (!(image instanceof HTMLImageElement) || !image.hasAttribute('data-hide-on-error')) return;
+    if (image.naturalWidth < 2 || image.naturalHeight < 2) discardGalleryImage(image);
+  }, true);
+
   document.addEventListener('error', event => {
     const image = event.target;
     if (!(image instanceof HTMLImageElement) || !image.hasAttribute('data-project-image')) return;
     if (image.hasAttribute('data-hide-on-error')) {
-      const source = image.dataset.gallerySource || image.currentSrc || image.src;
-      image.dispatchEvent(new CustomEvent('portfolio:gallery-image-error', { bubbles: true, detail: { source } }));
-      image.closest('[data-gallery-image-item]')?.remove();
+      discardGalleryImage(image);
       return;
     }
     const fallback = document.createElement('span');
