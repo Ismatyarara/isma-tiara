@@ -183,3 +183,6 @@
 #projects:after{width:160px;height:160px;left:-80px;bottom:4%;background:radial-gradient(circle,#f8e8da55,transparent 70%);transform:translate3d(0,calc(var(--section-parallax-y,0px)*-.5),0)}
 #projects .projects-head,#projects .project-grid{position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){#projects:before,#projects:after{transition:none!important;transform:none!important;will-change:auto!important}}
+
+.contact-social-icon>svg{display:block;width:23px;height:23px;overflow:visible}
+
