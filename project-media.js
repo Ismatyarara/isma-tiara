@@ -61,6 +61,12 @@
   document.addEventListener('error', event => {
     const image = event.target;
     if (!(image instanceof HTMLImageElement) || !image.hasAttribute('data-project-image')) return;
+    if (image.hasAttribute('data-hide-on-error')) {
+      const source = image.dataset.gallerySource || image.currentSrc || image.src;
+      image.dispatchEvent(new CustomEvent('portfolio:gallery-image-error', { bubbles: true, detail: { source } }));
+      image.closest('[data-gallery-image-item]')?.remove();
+      return;
+    }
     const fallback = document.createElement('span');
     fallback.className = `${image.className} project-placeholder`.trim();
     fallback.setAttribute('role', 'img');

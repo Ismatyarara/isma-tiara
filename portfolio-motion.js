@@ -6,7 +6,8 @@
     '.project-link', '.project-list-card', '.skill-category', '.cert-link', '.hobby-card',
     '.contact-v2-message', '.contact-v2-card', '.location-card', '.location-map',
     '.detail-grid > .detail-card', '.detail-gallery', '.activity-photo', '.hobby-heading',
-    '.certificate-detail', '.certificate-layout', '.case-section', '.case-sidebar',
+    '.certificate-detail', '.certificate-layout', '.certificate-info', '.certificate-document-nav',
+    '.all-skill-group', '.all-skill-item', '.case-section', '.case-sidebar',
     '.case-navigation', '.detail-hero', '.detail-meta', '.detail-title', '.detail-lead',
     '.case-cover', '.project-back',
   ].join(',');
