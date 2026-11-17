@@ -167,14 +167,14 @@
 #projects .project-more{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:auto;padding-top:16px;color:#5e43b2;font-size:11px;font-weight:900}
 #projects .project-more i{font-size:15px;font-style:normal;transition:transform .2s}
 #projects .project-link:hover .project-more i{transform:translate(3px,-3px)}
-#projects .project-link:only-child,#projects .project-link:nth-child(3):last-child{grid-column:1/-1;grid-template-columns:minmax(0,1.28fr) minmax(300px,.72fr);grid-template-rows:1fr;align-items:stretch}
-#projects .project-link:only-child .project-editorial-media,#projects .project-link:nth-child(3):last-child .project-editorial-media{height:100%;min-height:350px;aspect-ratio:auto}
-#projects .project-link:only-child .project-body,#projects .project-link:nth-child(3):last-child .project-body{justify-content:center;padding:clamp(24px,4vw,48px)}
-#projects .project-link:only-child .project-body h3,#projects .project-link:nth-child(3):last-child .project-body h3{font-size:clamp(27px,3.4vw,42px)}
-#projects .project-link:only-child .project-body>p,#projects .project-link:nth-child(3):last-child .project-body>p{font-size:14px;line-height:1.75;-webkit-line-clamp:3}
+
+
+
+
+
 #projects .project-media .project-placeholder{display:grid;width:100%;height:100%;min-height:240px;place-items:center;background:#f7f5fa;color:#8a8499;font-size:12px;font-weight:700;letter-spacing:0}
 #projects .project-media .project-placeholder:after{content:"Project image unavailable"}
-@media(max-width:700px){#projects .project-grid{grid-template-columns:1fr;gap:17px}#projects .project-link:only-child,#projects .project-link:nth-child(3):last-child{grid-column:auto;grid-template-columns:1fr;grid-template-rows:auto 1fr}#projects .project-link:only-child .project-editorial-media,#projects .project-link:nth-child(3):last-child .project-editorial-media{min-height:0;aspect-ratio:1.35}#projects .project-link:only-child .project-body,#projects .project-link:nth-child(3):last-child .project-body{padding:18px 19px 20px}#projects .project-link:only-child .project-body h3,#projects .project-link:nth-child(3):last-child .project-body h3{font-size:25px}#projects .project-body{padding:17px 18px 19px}#projects .project-editorial-media{aspect-ratio:1.42}#projects .project-laptop-stage{padding:20px}}
+@media(max-width:700px){#projects .project-grid{grid-template-columns:1fr;gap:17px}#projects .project-body{padding:17px 18px 19px}#projects .project-editorial-media{aspect-ratio:1.42}#projects .project-laptop-stage{padding:20px}}
 @media(prefers-reduced-motion:reduce){#projects .project-link,#projects .project-laptop,#projects .project-laptop-screen>.project-image,#projects .project-more i{transition:none!important}}
 
 #projects{position:relative;isolation:isolate}
