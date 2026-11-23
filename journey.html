@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbfcff">
+  <title>My Growth Timeline — Isma Tiara</title>
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&family=fraunces:500,600,700" rel="stylesheet">
+  <link rel="stylesheet" href="/journey-page.css">
+  <link rel="stylesheet" href="/site-motion.css">
+</head>
+<body class="journey-page">
+  <header class="journey-nav">
+    <a class="journey-brand" href="/index.html#home"><img src="/assets/images/logo-isma-cropped.png" alt="Isma Tiara"></a>
+    <div class="journey-nav-actions">
+      <button class="language-toggle" type="button">ID / EN</button>
+      <a class="journey-back" href="/index.html#experience"><span aria-hidden="true">←</span> <span data-language-id="Kembali ke portfolio" data-language-en="Back to portfolio">Kembali ke portfolio</span></a>
+    </div>
+  </header>
+  <main class="journey-shell">
+    <section class="journey-hero">
+      <p class="journey-eyebrow" data-language-id="PERJALANAN &amp; PERTUMBUHAN" data-language-en="GROWTH &amp; EXPERIENCE">PERJALANAN &amp; PERTUMBUHAN</p>
+      <h1 data-language-id="My Growth Timeline" data-language-en="My Growth Timeline">My Growth Timeline</h1>
+      <p data-language-id="Pendidikan, pengalaman, karya, dan pencapaian yang tercatat dalam perjalanan saya." data-language-en="Education, experience, work, and achievements documented along my journey.">Pendidikan, pengalaman, karya, dan pencapaian yang tercatat dalam perjalanan saya.</p>
+    </section>
+    <nav id="journeyFilters" class="journey-filters" aria-label="Filter timeline"></nav>
+    <p id="journeyCount" class="journey-count" aria-live="polite"></p>
+    <section id="growthTimeline" class="growth-timeline" aria-live="polite"></section>
+  </main>
+  <footer class="journey-footer"><span>Isma Tiara Zalianti © <span id="journeyYear"></span></span><a href="/index.html#home">Portfolio</a></footer>
+  <dialog id="journeyDetail" class="journey-dialog" aria-labelledby="journeyDetailTitle">
+    <button class="journey-dialog-close" type="button" aria-label="Tutup detail">×</button>
+    <div id="journeyDetailContent"></div>
+  </dialog>
+  <script src="/data.js"></script>
+  <script src="/project-media.js"></script>
+  <script src="/portfolio-motion.js"></script>
+  <script src="/journey-page.js"></script>
+</body>
+</html>

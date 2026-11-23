@@ -143,6 +143,7 @@
 .projects-page .project-hero{position:relative;isolation:isolate}
 .projects-page .project-hero:after{content:"";position:absolute;z-index:-1;right:-150px;top:25px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,#e8e0ff6a,transparent 70%);transform:translate3d(0,var(--section-parallax-y,0px),0);transition:transform .18s linear;pointer-events:none}
 @media(prefers-reduced-motion:reduce){.projects-page .project-hero:after{transform:none;transition:none}}
+@media(max-width:900px){.projects-page .project-hero:after{right:0}}
 
 /* Structured project case study */
 .projects-page .project-detail{max-width:1180px;margin-inline:auto;padding:34px 0 90px}
@@ -241,6 +242,35 @@
 .projects-page .lightbox-prev{left:15px}.projects-page .lightbox-next{right:15px}
 .projects-page .lightbox-counter{position:absolute;bottom:13px;left:50%;padding:7px 10px;border:1px solid #ffffff40;border-radius:999px;background:#161633bd;color:#fff;font-size:10px;font-weight:800;transform:translateX(-50%)}
 .projects-page .lightbox-nav:focus-visible,.projects-page .lightbox-close:focus-visible{outline:3px solid #bcaaff;outline-offset:3px}
+.projects-page .case-cover-open{display:block;width:100%;height:100%;padding:0;border:0;background:#fff;cursor:zoom-in}
+.projects-page .case-cover-open:focus-visible{outline:3px solid #8a72ed;outline-offset:-4px}
+.projects-page .case-cover-open .case-cover-image{display:block;width:100%;height:100%;object-fit:contain;background:#fff}
+.projects-page .gallery-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.projects-page .gallery-item img{display:block;width:100%;height:100%;object-fit:contain;background:#f4f3fc}
+.projects-page .gallery-item:focus-visible{outline:3px solid #8a72ed;outline-offset:3px}
+@media(max-width:760px){.projects-page .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+@media(max-width:420px){.projects-page .gallery-grid{grid-template-columns:minmax(0,1fr)}}
+.projects-page .project-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.projects-page .project-list-card{min-height:100%;border-radius:20px;animation:projectFadeUp .42s both;animation-delay:calc(var(--project-order,0) * 55ms)}
+.projects-page .project-list-media{aspect-ratio:16/10}
+.projects-page .project-list-media>img{object-fit:contain;object-position:center;background:#f0edf8}
+.projects-page .project-list-body{display:flex;min-width:0;flex-direction:column;align-items:stretch;padding:18px 20px 19px}
+.projects-page .project-list-body h2{min-height:2.4em;margin:10px 0 7px;font-size:clamp(18px,1.65vw,22px)}
+.projects-page .project-list-body>p{min-height:4.65em;margin:0;line-height:1.55}
+.projects-page .project-list-body .project-more{margin-top:auto;padding-top:13px}
+.projects-page .project-list-card:hover .project-list-media>img{transform:scale(1.025)}
+.projects-page .project-pagination{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:-40px 0 62px;padding:14px 16px;border:1px solid #e9e4f4;border-radius:16px;background:#ffffffd9}
+.projects-page .project-pagination[hidden]{display:none}
+.projects-page .pagination-summary{color:#777187;font-size:12px}
+.projects-page .pagination-controls{display:flex;align-items:center;justify-content:flex-end;gap:6px}
+.projects-page .page-number,.projects-page .page-step{display:inline-flex;min-width:38px;min-height:38px;align-items:center;justify-content:center;padding:0 10px;border:1px solid #e5e0f0;border-radius:11px;background:#fff;color:#5f5874;font:700 12px Figtree,Arial,sans-serif;cursor:pointer;transition:background .18s,border-color .18s,color .18s,transform .18s}
+.projects-page .page-number:hover:not(.active),.projects-page .page-step:hover:not(:disabled){transform:translateY(-1px);border-color:#cfc2e7;background:#faf8ff}
+.projects-page .page-number.active{border-color:#6551db;background:#6551db;color:#fff}
+.projects-page .page-step:disabled{opacity:.42;cursor:default}
+.projects-page .page-number:focus-visible,.projects-page .page-step:focus-visible{outline:3px solid #8a72ed;outline-offset:2px}
+@media(max-width:960px){.projects-page .project-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}}
+@media(max-width:620px){.projects-page .project-list{grid-template-columns:minmax(0,1fr);gap:15px}.projects-page .project-list-body h2{min-height:0}.projects-page .project-list-body>p{min-height:0}.projects-page .project-pagination{align-items:stretch;flex-direction:column;margin:-26px 0 45px;padding:12px}.projects-page .pagination-summary{text-align:center}.projects-page .pagination-controls{justify-content:center;flex-wrap:wrap}.projects-page .page-step{font-size:0}.projects-page .page-step:first-child:after{content:'←';font-size:16px}.projects-page .page-step:last-child:after{content:'→';font-size:16px}}
+@media(prefers-reduced-motion:reduce){.projects-page .project-list-card{animation:none!important}}
 @media(max-width:900px){.projects-page .project-detail{max-width:760px}.projects-page .case-layout{grid-template-columns:minmax(0,1fr) 230px;gap:14px}.projects-page .case-section,.projects-page .case-facts{padding:18px}.projects-page .case-cover{aspect-ratio:16/9}}
 @media(max-width:700px){.projects-page .project-detail{padding:18px 0 52px}.projects-page .case-heading{margin-bottom:17px}.projects-page .case-heading>.project-back{margin-bottom:18px}.projects-page .case-heading .detail-title{font-size:clamp(31px,8.8vw,43px)}.projects-page .case-heading .detail-lead{font-size:13px}.projects-page .case-cover{aspect-ratio:16/10;margin-bottom:19px;padding:12px;border-radius:17px}.projects-page .case-layout{grid-template-columns:1fr;gap:11px}.projects-page .case-sidebar{grid-row:auto}.projects-page .case-section,.projects-page .case-facts{padding:17px;border-radius:15px}.projects-page .detail-gallery{margin-top:25px}.projects-page .gallery-stage{aspect-ratio:4/3;border-radius:13px}.projects-page .gallery-current{padding:8px}.projects-page .gallery-thumbnail{flex-basis:70px}.projects-page .case-navigation{gap:9px;margin-top:23px}.projects-page .case-nav-link{min-height:60px;padding:12px;border-radius:13px}.projects-page .lightbox-nav{width:35px;height:35px;font-size:24px}.projects-page .lightbox-prev{left:7px}.projects-page .lightbox-next{right:7px}}
 @media(prefers-reduced-motion:reduce){.projects-page .lightbox-nav{transition:none!important;transform:translateY(-50%)}}

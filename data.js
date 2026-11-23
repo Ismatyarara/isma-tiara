@@ -39,7 +39,15 @@ const defaultData = {
     { id: 1, nama: 'Photography', deskripsi: 'Mengabadikan momen melalui foto.', gambar: '', gallery: [] },
     { id: 2, nama: 'Music', deskripsi: 'Mendengarkan musik untuk mengisi energi.', gambar: '', gallery: [] },
     { id: 3, nama: 'Learning', deskripsi: 'Belajar dan mencoba hal-hal baru.', gambar: '', gallery: [] }
-  ]
+  ],
+  timeline: [
+    { id: 1, judul: 'SMK Assalaam Bandung — Rekayasa Perangkat Lunak', kategori: 'Education', tanggal: 'Jul 2023 – Mei 2026', deskripsi: 'Menempuh pendidikan Rekayasa Perangkat Lunak. Kegiatan yang tercatat meliputi Kelas Industri bersama PT Dwi Purwa Teknologi, UKK dengan membangun aplikasi kesehatan HealTrack, serta P5 berupa pengabdian masyarakat dan perawatan fasilitas ibadah.', skills: 'Rekayasa Perangkat Lunak, HealTrack', gambar: '', gallery: [] },
+    { id: 2, judul: 'Technical Support (PKL)', kategori: 'Experience', tanggal: '2025', deskripsi: 'PKL di UIN Sunan Gunung Djati Bandung (PTIPD): mengembangkan sistem inventaris dan manajemen ruangan, data entry akun mahasiswa dan dokumentasi divisi, monitoring lab, dukungan teknis ujian ICT, serta koordinasi logistik operasional harian.', skills: 'Technical Support, Data Entry, Troubleshooting', gambar: '', gallery: [] },
+    { id: 3, judul: 'Ketua Divisi Lingkungan Kesehatan', kategori: 'Experience', tanggal: '', deskripsi: 'OSIS SMK Assalaam Bandung. Tugas yang tercatat meliputi perencanaan ide, anggaran, dan pelaksanaan program; pembagian tugas dan jadwal kegiatan UKS serta OSIS; dan koordinasi antar divisi pada acara resmi sekolah.', skills: '', gambar: '', gallery: [] },
+    { id: 4, judul: 'Staf Penjualan & Distribusi', kategori: 'Experience', tanggal: '', deskripsi: 'Usaha Kue & Roti: penjualan dan titip jual di lima sekolah, pengaturan jadwal pengantaran, pencatatan modal dan pemasukan-pengeluaran, pelayanan pelanggan, serta kontrol kualitas.', skills: '', gambar: '', gallery: [] }
+  ],
+  behindWork: [],
+  collaboration: [{ id: 1, availability: 'Tidak ditampilkan', email: 'ismatiarazalianti32@gmail.com', whatsapp: '+6281298536421', github: 'https://github.com/Ismatyarara', linkedin: '', instagram: 'https://www.instagram.com/tiararie_e/' }]
 };
 
 // Pengganti structuredClone() -> lebih aman untuk browser/WebView lama
@@ -61,6 +69,9 @@ async function getData() {
       ...cloneData(defaultData),
       ...saved,
       beyond: saved.beyond || cloneData(defaultData.beyond),
+      timeline: Array.isArray(saved.timeline) ? saved.timeline : cloneData(defaultData.timeline),
+      behindWork: Array.isArray(saved.behindWork) ? saved.behindWork : cloneData(defaultData.behindWork),
+      collaboration: (Array.isArray(saved.collaboration) && saved.collaboration.length ? saved.collaboration : cloneData(defaultData.collaboration)).map((item, index) => ({ ...item, id: item.id ?? index + 1 })),
     };
   } catch (err) {
     console.error('getData() gagal, pakai data default:', err);

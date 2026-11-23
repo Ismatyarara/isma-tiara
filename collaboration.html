@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbfcff">
+  <title>Collaboration Corner — Isma Tiara</title>
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&family=fraunces:500,600,700" rel="stylesheet">
+  <link rel="stylesheet" href="/collaboration.css">
+  <link rel="stylesheet" href="/site-motion.css">
+</head>
+<body class="collab-page">
+  <header class="collab-nav"><a href="/index.html#home" class="collab-brand">IT<span>.</span></a><div><button class="language-toggle" type="button">ID / EN</button><a class="collab-back" href="/index.html">← <span data-language-id="Kembali ke portfolio" data-language-en="Back to portfolio">Kembali ke portfolio</span></a></div></header>
+  <main class="collab-shell">
+    <section class="collab-hero"><p class="collab-eyebrow" data-language-id="PELUANG &amp; KOLABORASI" data-language-en="OPPORTUNITIES &amp; COLLABORATION">PELUANG &amp; KOLABORASI</p><h1 data-language-id="Mari mulai percakapan." data-language-en="Let's start a conversation.">Mari mulai percakapan.</h1><p data-language-id="Terbuka untuk percakapan profesional, peluang kerja, dan kolaborasi yang bermakna." data-language-en="Open to professional conversations, career opportunities, and meaningful collaborations.">Terbuka untuk percakapan profesional, peluang kerja, dan kolaborasi yang bermakna.</p><div id="availability" class="availability" hidden><span></span><b id="availabilityText"></b></div></section>
+    <section class="collab-layout">
+      <aside class="collab-contact"><div class="collab-section-heading"><p class="collab-eyebrow">CONTACT</p><h2>Connect directly.</h2></div><div id="contactLinks" class="contact-links"></div><p class="contact-note">Kabupaten Bandung, Jawa Barat · Indonesia</p></aside>
+      <section class="collab-form-wrap"><div class="collab-section-heading"><p class="collab-eyebrow">SEND A MESSAGE</p><h2>What can I help with?</h2><p>Isi formulir berikut. Pesan akan masuk ke inbox portfolio, dan email notifikasi dikirim jika layanan email telah disetel.</p></div>
+        <form id="collaborationForm" novalidate>
+          <div class="form-row"><label>Nama<input name="name" autocomplete="name" maxlength="100" required></label><label>Email<input name="email" type="email" autocomplete="email" maxlength="254" required></label></div>
+          <label>Subjek<input name="subject" maxlength="160" required></label>
+          <label>Jenis kebutuhan<select name="category" required><option value="">Pilih kebutuhan</option><option>Job Opportunity</option><option>Website Development</option><option>UI/UX Design</option><option>Creative Project</option><option>Administrative Support</option><option>Other Collaboration</option></select></label>
+          <label>Pesan<textarea name="message" rows="5" minlength="10" maxlength="5000" required></textarea></label>
+          <div class="form-honey" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
+          <input type="hidden" name="startedAt" id="formStartedAt">
+          <div class="form-submit"><button id="submitMessage" type="submit"><span>Kirim pesan</span><span aria-hidden="true">↗</span></button><p id="formMessage" role="status" aria-live="polite"></p></div>
+        </form>
+      </section>
+    </section>
+    <footer class="collab-footer"><span>Isma Tiara Zalianti © <span id="collabYear"></span></span><a href="/index.html">Portfolio website ↗</a></footer>
+  </main>
+  <script src="/data.js"></script><script src="/site-language.js"></script><script src="/portfolio-motion.js"></script><script src="/collaboration.js"></script>
+</body>
+</html>

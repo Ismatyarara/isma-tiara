@@ -7,14 +7,15 @@
     '.contact-v2-message', '.contact-v2-card', '.location-card', '.location-map',
     '.detail-grid > .detail-card', '.detail-gallery', '.activity-photo', '.hobby-heading',
     '.certificate-detail', '.certificate-layout', '.certificate-info', '.certificate-document-nav',
-    '.all-skill-group', '.all-skill-item', '.case-section', '.case-sidebar',
+    '.all-skill-group', '.all-skill-item', '.case-section', '.case-sidebar', '.growth-item',
     '.case-navigation', '.detail-hero', '.detail-meta', '.detail-title', '.detail-lead',
     '.case-cover', '.project-back',
+    '.behind-card', '.collab-contact', '.collab-form-wrap', '.contact-link',
   ].join(',');
   const imageSelector = [
     '.project-media img', '.project-list-media img', '.detail-cover img', '.case-cover img',
     '.gallery-grid img', '.photo-grid img', '.card-media img', '.hobby-cover-image',
-    '.certificate-preview-image', '.certificate-image',
+    '.certificate-preview-image', '.certificate-image', '.growth-image', '.behind-card-image', '.activity-feature-image',
   ].join(',');
 
   let observer = null;

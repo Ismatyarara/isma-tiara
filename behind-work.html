@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbfcff">
+  <title>Behind The Work — Isma Tiara</title>
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&family=fraunces:500,600,700" rel="stylesheet">
+  <link rel="stylesheet" href="/behind-work.css">
+  <link rel="stylesheet" href="/site-motion.css">
+</head>
+<body class="behind-work-page">
+  <header class="behind-nav">
+    <a class="behind-brand" href="/index.html#home"><img src="/assets/images/logo-isma-cropped.png" alt="Isma Tiara"></a>
+    <div class="behind-nav-actions">
+      <button class="language-toggle" type="button">ID / EN</button>
+      <a class="behind-back" href="/index.html#projects"><span aria-hidden="true">←</span> <span data-language-id="Kembali ke portfolio" data-language-en="Back to portfolio">Kembali ke portfolio</span></a>
+    </div>
+  </header>
+  <main class="behind-shell">
+    <section class="behind-hero">
+      <p class="behind-eyebrow" data-language-id="PROSES &amp; DOKUMENTASI" data-language-en="PROCESS &amp; DOCUMENTATION">PROSES &amp; DOKUMENTASI</p>
+      <h1 data-language-id="Behind The Work" data-language-en="Behind The Work">Behind The Work</h1>
+      <p data-language-id="Potongan proses kreatif, eksperimen, dan aktivitas produktif yang benar-benar terdokumentasi." data-language-en="A look at creative processes, experiments, and productive activities documented along the way.">Potongan proses kreatif, eksperimen, dan aktivitas produktif yang benar-benar terdokumentasi.</p>
+    </section>
+    <nav id="behindFilters" class="behind-filters" aria-label="Kategori dokumentasi"></nav>
+    <p id="behindCount" class="behind-count" aria-live="polite"></p>
+    <section id="behindGallery" class="behind-gallery" aria-live="polite"></section>
+  </main>
+  <footer class="behind-footer"><span>Isma Tiara Zalianti © <span id="behindYear"></span></span><a href="/index.html#home">Portfolio</a></footer>
+  <dialog id="activityDetail" class="activity-dialog" aria-labelledby="activityTitle">
+    <button id="activityClose" class="activity-close" type="button" aria-label="Tutup detail">×</button>
+    <div id="activityContent"></div>
+  </dialog>
+  <dialog id="activityLightbox" class="activity-lightbox" aria-label="Foto dokumentasi ukuran besar">
+    <button id="lightboxClose" class="lightbox-close" type="button" aria-label="Tutup foto">×</button>
+    <button id="lightboxPrevious" class="lightbox-arrow lightbox-previous" type="button" aria-label="Foto sebelumnya">‹</button>
+    <img id="lightboxImage" alt="">
+    <button id="lightboxNext" class="lightbox-arrow lightbox-next" type="button" aria-label="Foto berikutnya">›</button>
+    <span id="lightboxPosition" class="lightbox-position" aria-live="polite"></span>
+  </dialog>
+  <script src="/data.js"></script>
+  <script src="/project-media.js"></script>
+  <script src="/portfolio-motion.js"></script>
+  <script src="/site-language.js"></script>
+  <script src="/behind-work.js"></script>
+</body>
+</html>
