@@ -41,18 +41,13 @@ const defaultData = {
     { id: 3, nama: 'Learning', deskripsi: 'Belajar dan mencoba hal-hal baru.', gambar: '', gallery: [] }
   ],
   timeline: [
-    { id: 1, judul: 'SMK Assalaam Bandung — Rekayasa Perangkat Lunak', kategori: 'Education', tanggal: 'Jul 2023 – Mei 2026', deskripsi: 'Menempuh pendidikan Rekayasa Perangkat Lunak. Kegiatan yang tercatat meliputi Kelas Industri bersama PT Dwi Purwa Teknologi, UKK dengan membangun aplikasi kesehatan HealTrack, serta P5 berupa pengabdian masyarakat dan perawatan fasilitas ibadah.', skills: 'Rekayasa Perangkat Lunak, HealTrack', gambar: '', gallery: [] },
-    { id: 2, judul: 'Technical Support (PKL)', kategori: 'Experience', tanggal: 'Sep 2025 – Nov 2025', instansi: 'UIN Sunan Gunung Djati Bandung (PTIPD)', deskripsi: 'Mengembangkan sistem inventaris dan manajemen ruangan; mengelola data akun mahasiswa dan dokumentasi divisi; memantau laboratorium dan mendukung teknis ujian ICT; serta membantu logistik operasional.', skills: 'Technical Support, Data Entry, Troubleshooting', gambar: '', gallery: [] },
-    { id: 3, judul: 'Ketua Divisi Lingkungan Kesehatan', kategori: 'Experience', tanggal: 'Jul 2023 – Agu 2025', instansi: 'OSIS SMK Assalaam Bandung', deskripsi: 'Merencanakan ide dan anggaran program, mengoordinasikan tugas anggota dan jadwal operasional UKS, serta bekerja sama antar divisi untuk kegiatan sekolah.', skills: 'Koordinasi, Manajemen Proyek, Pertolongan Pertama', gambar: '', gallery: [] },
-    { id: 4, judul: 'Staf Penjualan & Distribusi', kategori: 'Experience', tanggal: 'Agu 2026 – Okt 2026', instansi: 'Usaha Teman — Kue & Roti', deskripsi: 'Menjual produk melalui stan dan titip jual di lima sekolah; mengatur jadwal pengantaran; mencatat modal, pemasukan, dan pengeluaran; serta melayani pelanggan dan menjaga kualitas produk.', skills: 'Distribusi, Pencatatan Keuangan, Pelayanan Pelanggan', gambar: '', gallery: [] },
-    { id: 5, judul: 'Helper Produksi (Numbering & Pemeriksaan Kain)', kategori: 'Experience', tanggal: 'Okt 2026 – Nov 2026', instansi: 'PT Fadfad — Harian Lepas', deskripsi: 'Memeriksa kain hasil produksi, melakukan numbering dan memasang name tag, serta membantu persiapan dan pemeriksaan hasil potongan kain.', skills: 'Quality Checking, Numbering & Labeling, Proses Produksi Garment', gambar: '', gallery: [] },
+    { id: 1, judul: 'SMK Assalaam Bandung', kategori: 'Education', tanggal: 'Jul 2023 – Mei 2026', instansi: 'Rekayasa Perangkat Lunak (RPL)', deskripsi: 'Kelas Industri bersama PT Dwi Purwa Teknologi.\nUji Kompetensi Keahlian melalui proyek aplikasi kesehatan HealTack.\nProyek P5 berupa pengabdian masyarakat.', skills: 'Kelas Industri, Uji Kompetensi Keahlian (UKK), P5', gambar: '', gallery: [] },
+    { id: 2, judul: 'Technical Support (PKL)', kategori: 'Experience', tipe: 'PKL', tanggal: 'Sep 2025 – Nov 2025', instansi: 'UIN Sunan Gunung Djati Bandung (PTIPD)', deskripsi: 'Terlibat dalam pengembangan sistem inventaris dan manajemen ruangan.\nMengelola data entry akun mahasiswa dan dokumentasi.\nMelakukan monitoring laboratorium komputer dan dukungan teknis ujian ICT.\nMengelola kebutuhan logistik operasional divisi.', skills: 'Technical Support, Data Entry, Troubleshooting', gambar: '', gallery: [] },
+    { id: 3, judul: 'Ketua Divisi Lingkungan Kesehatan', kategori: 'Organization', tipe: 'Organization', tanggal: 'Jul 2023 – Agu 2025', instansi: 'OSIS SMK Assalaam Bandung', deskripsi: 'Merencanakan program kerja, anggaran, dan pelaksanaan kegiatan.\nMengoordinasikan pembagian tugas dan jadwal operasional.\nMenangani kegiatan UKS dan koordinasi antar divisi sekolah.', skills: 'Koordinasi, Perencanaan Program, Manajemen Operasional', gambar: '', gallery: [] },
+    { id: 4, judul: 'Staf Penjualan & Distribusi', kategori: 'Experience', tipe: 'Usaha', tanggal: 'Agu 2026 – Okt 2026', instansi: 'Usaha Kue & Roti', deskripsi: 'Menjual produk melalui stan dan titip jual di lima sekolah.\nMengatur jadwal pengantaran.\nMencatat modal, pengeluaran, dan pemasukan.\nMelayani pelanggan dan menjaga kualitas produk.', skills: 'Distribusi, Pencatatan Keuangan, Pelayanan Pelanggan', gambar: '', gallery: [] },
+    { id: 5, judul: 'Helper Produksi (Numbering & Pemeriksaan Kain)', kategori: 'Experience', tipe: 'Harian Lepas', tanggal: 'Okt 2026 – Nov 2026', instansi: 'PT Fadfad', deskripsi: 'Memeriksa kain hasil produksi untuk mengidentifikasi cacat atau ketidaksesuaian.\nMelakukan penomoran (numbering) pada kain.\nMemasang name tag sebagai identitas kain.\nMembantu persiapan dan pemeriksaan hasil potongan kain.', skills: 'Quality Checking, Numbering & Labeling, Proses Produksi Garment', gambar: '', gallery: [] }
   ],
-  workHistory: [
-    { id: 1, title: 'Helper Produksi (Numbering & Pemeriksaan Kain)', organization: 'PT Fadfad · Harian Lepas', date: 'Okt 2026 – Nov 2026', description: 'Memeriksa kain hasil produksi untuk menemukan cacat atau ketidaksesuaian, melakukan numbering dan memasang name tag, serta membantu persiapan dan pemeriksaan hasil potongan kain.', skills: 'Quality Checking, Numbering & Labeling, Proses Produksi Garment' },
-    { id: 2, title: 'Technical Support (Program Praktik Kerja Lapangan)', organization: 'UIN Sunan Gunung Djati Bandung (PTIPD)', date: 'Sep 2025 – Nov 2025', description: 'Terlibat dalam pengembangan sistem inventaris dan manajemen ruangan; mengelola data akun mahasiswa dan dokumentasi divisi; memantau laboratorium serta membantu teknis ujian ICT; dan mendukung logistik operasional.', skills: 'Technical Support, Data Entry, Troubleshooting, MySQL' },
-    { id: 3, title: 'Staf Penjualan & Distribusi (Usaha Kue & Roti)', organization: 'Usaha Teman', date: 'Agu 2026 – Okt 2026', description: 'Menjual kue dan roti melalui stan serta titip jual di lima sekolah, mengatur jadwal pengantaran, mencatat modal dan arus kas, melayani pelanggan, dan menjaga kualitas produk.', skills: 'Distribusi, Pencatatan Keuangan, Pelayanan Pelanggan' },
-    { id: 4, title: 'Ketua Divisi Lingkungan Kesehatan', organization: 'OSIS SMK Assalaam Bandung', date: 'Jul 2023 – Agu 2025', description: 'Merencanakan ide dan anggaran program, mengoordinasikan tugas anggota serta kegiatan UKS, dan bekerja sama antar divisi dalam acara resmi sekolah.', skills: 'Koordinasi, Manajemen Proyek, Komunikasi' }
-  ],
+  experienceEducationVersion: 0,
   behindWork: [],
   collaboration: [{ id: 1, availability: 'Tidak ditampilkan', email: 'ismatiarazalianti32@gmail.com', whatsapp: '+6281298536421', github: 'https://github.com/Ismatyarara', linkedin: '', instagram: 'https://www.instagram.com/tiararie_e/' }]
 };
@@ -83,6 +78,21 @@ async function getData() {
   } catch (err) {
     console.error('getData() gagal, pakai data default:', err);
     data = cloneData(defaultData);
+  }
+  if (Number(data.experienceEducationVersion) !== 1) {
+    const requiredEntries = defaultData.timeline.filter(item => ['Education', 'Experience', 'Organization'].includes(item.kategori));
+    const matched = new Set();
+    const existing = Array.isArray(data.timeline) ? data.timeline : [];
+    const normalizedTitle = value => String(value || '').trim().toLocaleLowerCase('id');
+    data.timeline = requiredEntries.map(seed => {
+      let index = existing.findIndex(item => normalizedTitle(item.judul) === normalizedTitle(seed.judul));
+      if (index < 0) index = existing.findIndex(item => String(item.id) === String(seed.id) && ['Education', 'Experience', 'Organization'].includes(item.kategori));
+      if (index < 0 || matched.has(index)) return cloneData(seed);
+      matched.add(index);
+      const current = existing[index];
+      return { ...current, ...cloneData(seed), id: current.id ?? seed.id, gambar: current.gambar || seed.gambar || '', gallery: Array.isArray(current.gallery) ? current.gallery : [...(seed.gallery || [])] };
+    }).concat(existing.filter((_, index) => !matched.has(index)));
+    data.experienceEducationVersion = 1;
   }
   window.portfolioDataReady = true;
   window.dispatchEvent(new Event('portfolio:data-ready'));

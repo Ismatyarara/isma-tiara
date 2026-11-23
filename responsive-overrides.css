@@ -67,3 +67,15 @@ body .nav-actions .cv-link{padding:10px 15px;font-size:11px;box-shadow:0 7px 16p
   .contact-related-links{flex-direction:column;gap:10px}
 }
 @media(prefers-reduced-motion:reduce){header{transition:none}}
+.experience-section .experience-head{margin-bottom:22px}
+.education-org-block{margin-top:42px;padding-top:30px;border-top:1px solid #e7e8fb}
+.education-org-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.experience-card-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.experience-badge{display:inline-flex;align-items:center;border-radius:999px;background:#f0efff;color:#6056b5;padding:7px 10px;font-size:10px;font-weight:800;white-space:nowrap}
+.experience-period{margin:14px 0 6px;color:#5f6c9e;font-size:11px;font-weight:800;letter-spacing:.02em}
+.exp-card h3{line-height:1.45}
+.exp-card h4{line-height:1.5;overflow-wrap:anywhere}
+.exp-card ul{padding-left:17px;margin:12px 0 0;color:#65709c;font-size:12px;line-height:1.65}
+.exp-card li+li{margin-top:5px}
+@media(max-width:900px){.education-org-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.education-org-block{margin-top:30px;padding-top:24px}.education-org-grid{grid-template-columns:1fr}.experience-badge{white-space:normal;text-align:center}.exp-card{min-width:0}.experience-period time{overflow-wrap:anywhere}}

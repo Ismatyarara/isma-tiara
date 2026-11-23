@@ -3,10 +3,10 @@
   const media = window.ProjectMedia;
   const $ = selector => document.querySelector(selector);
   const esc = media.escapeHtml;
-  const categories = ['All', 'Education', 'Experience', 'Projects', 'Learning Journey', 'Achievements'];
+  const categories = ['All', 'Education', 'Experience', 'Organization', 'Projects', 'Learning Journey', 'Achievements'];
   const categoryText = {
-    id: { All: 'Semua', Education: 'Pendidikan', Experience: 'Pengalaman', Projects: 'Proyek', 'Learning Journey': 'Perjalanan Belajar', Achievements: 'Pencapaian' },
-    en: { All: 'All', Education: 'Education', Experience: 'Experience', Projects: 'Projects', 'Learning Journey': 'Learning Journey', Achievements: 'Achievements' }
+    id: { All: 'Semua', Education: 'Pendidikan', Experience: 'Pengalaman', Organization: 'Organisasi', Projects: 'Proyek', 'Learning Journey': 'Perjalanan Belajar', Achievements: 'Pencapaian' },
+    en: { All: 'All', Education: 'Education', Experience: 'Experience', Organization: 'Organization', Projects: 'Projects', 'Learning Journey': 'Learning Journey', Achievements: 'Achievements' }
   };
   let language = localStorage.getItem('isma-portfolio-language') === 'en' ? 'en' : 'id';
   let activeCategory = 'All';
@@ -28,7 +28,7 @@
       title: item.judul || 'Perjalanan',
       date: item.tanggal || item.tahun || item.date || '',
       description: item.deskripsi || '',
-      organization: item.institusi || item.organisasi || '',
+      organization: item.instansi || item.institusi || item.organisasi || '',
       tags: asList(item.skills || item.skill),
       images: uniqueImages([item.gambar || '', ...(Array.isArray(item.gallery) ? item.gallery : [])]),
       order: index
