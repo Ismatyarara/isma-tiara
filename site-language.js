@@ -2,8 +2,8 @@
   const button = document.querySelector('.language-toggle');
   if (!button) return;
   const labels = {
-    en: ['Home', 'About', 'Growth Timeline', 'Behind The Work', 'Experience', 'Projects', 'Education', 'Skills', 'Certificates', 'Hobbies', 'Collaboration', 'Location'],
-    id: ['Beranda', 'Tentang', 'Linimasa Perjalanan', 'Di Balik Karya', 'Pengalaman', 'Proyek', 'Pendidikan', 'Keahlian', 'Sertifikat', 'Hobi', 'Kolaborasi', 'Lokasi'],
+    en: ['Home', 'About', 'Experience', 'Education', 'Skills', 'Projects', 'Certificates', 'Hobbies', 'Contact'],
+    id: ['Beranda', 'Tentang', 'Pengalaman', 'Pendidikan', 'Keahlian', 'Proyek', 'Sertifikat', 'Hobi', 'Kontak'],
   };
   const translations = {
     en: {
@@ -54,7 +54,6 @@
         const element = document.querySelector(selector);
         if (element?.dataset.original) element.innerHTML = element.dataset.original;
       }
-      document.querySelectorAll('.nav-links a').forEach((link, i) => { const idLabels = ['Home', 'About', 'Growth Timeline', 'Behind The Work', 'Experience', 'Projects', 'Education', 'Skills', 'Certificates', 'Hobbies', 'Collaboration', 'Location']; if (idLabels[i] && !link.dataset.baseLabel) link.dataset.baseLabel = idLabels[i]; if (link.dataset.baseLabel) link.textContent = link.dataset.baseLabel; });
     }
     document.querySelectorAll('[data-language-id][data-language-en]').forEach(element => { element.textContent = language === 'id' ? element.dataset.languageId : element.dataset.languageEn; });
     localStorage.setItem('isma-portfolio-language', language);

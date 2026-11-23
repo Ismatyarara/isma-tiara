@@ -6,7 +6,7 @@ img,iframe,video{max-width:100%}
 /* The home page hides its desktop links below 940px; expose them through a
    keyboard-accessible disclosure control instead of removing navigation. */
 .mobile-nav-toggle{display:none}
-@media(max-width:1100px){
+@media(max-width:900px){
   .nav{position:relative;flex-wrap:wrap;min-height:70px;height:auto;padding-top:9px;padding-bottom:9px}
   .mobile-nav-toggle{display:grid;place-content:center;gap:4px;width:42px;height:42px;margin-left:auto;border:1px solid #dedaf3;border-radius:12px;background:#fff;color:#5140bd;cursor:pointer}
   .mobile-nav-toggle span{display:block;width:17px;height:2px;border-radius:2px;background:currentColor}
@@ -32,3 +32,38 @@ img,iframe,video{max-width:100%}
   .nav-links{grid-template-columns:1fr}
   .actions .pill{padding-inline:14px;font-size:11px}
 }
+/* Refined navbar and CV based home content. */
+header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(224,226,247,.75);transition:background .2s ease,box-shadow .2s ease}
+
+body .nav{gap:clamp(10px,1.5vw,22px)}
+body .logo{flex:0 0 92px;width:92px;height:48px;object-position:left center}
+body .nav-links{flex:1;justify-content:center;align-items:center;gap:clamp(10px,1.45vw,20px);font-size:clamp(10px,.78vw,12px);white-space:nowrap}
+body .nav-links a{white-space:nowrap}
+body .nav-actions{display:flex;align-items:center;gap:10px;flex:0 0 auto;white-space:nowrap}
+body .nav-actions .language-toggle{border:0;background:transparent;color:#6256b7;font-size:11px;font-weight:800;padding:9px 7px;cursor:pointer}
+body .nav-actions .cv-link{padding:10px 15px;font-size:11px;box-shadow:0 7px 16px #7b6bd42b}
+.mobile-cv-link{display:none}
+#home,#about,#experience,#education,#skills,#projects,#certificates,#hobbies,#contact,#location{scroll-margin-top:96px}
+.projects-actions{display:flex;align-items:center;gap:16px}
+.projects-process-link,.journey-full-link,.contact-related-links a{color:#6551db;font-size:12px;font-weight:750}
+.journey-full-link{display:inline-flex;margin-top:20px}
+.contact-related-links{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:18px}
+.exp-description{font-size:13px;line-height:1.65;color:#717aa5}
+.exp-skills{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.exp-skills span{border-radius:999px;background:#f0efff;color:#5e56a5;padding:6px 9px;font-size:10px;font-weight:700}
+@media(max-width:900px){
+  body .nav{gap:10px}
+  body .nav-links{flex:0 0 100%;justify-content:start;white-space:normal}
+  body .nav-actions{margin-left:auto}
+  body .nav-actions .cv-link{display:none}
+  body .mobile-cv-link{display:block;grid-column:1/-1;text-align:center;color:#fff!important;background:linear-gradient(100deg,#5140bd,#9178f3)!important;border-radius:10px!important;margin-top:6px}
+}
+@media(min-width:901px){body .mobile-nav-toggle{display:none!important}}
+@media(max-width:600px){
+  body .logo{flex-basis:78px;width:78px;height:44px}
+  body .nav-actions{gap:4px}
+  body .nav-actions .language-toggle{font-size:10px;padding-inline:6px}
+  .projects-actions{align-items:flex-start;flex-direction:column;gap:9px}
+  .contact-related-links{flex-direction:column;gap:10px}
+}
+@media(prefers-reduced-motion:reduce){header{transition:none}}
